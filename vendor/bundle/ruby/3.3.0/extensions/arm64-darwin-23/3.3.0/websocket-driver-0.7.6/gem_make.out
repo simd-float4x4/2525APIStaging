@@ -1,0 +1,18 @@
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/websocket-driver-0.7.6/ext/websocket-driver
+/Users/asobu_dev/.rbenv/versions/3.3.3/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/websocket-driver-0.7.6/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20240714-37879-sm77f0 sitelibdir\=./.gem.20240714-37879-sm77f0 clean
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/websocket-driver-0.7.6/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20240714-37879-sm77f0 sitelibdir\=./.gem.20240714-37879-sm77f0
+compiling websocket_mask.c
+linking shared-object websocket_mask.bundle
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/websocket-driver-0.7.6/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20240714-37879-sm77f0 sitelibdir\=./.gem.20240714-37879-sm77f0 install
+/usr/bin/install -c -m 0755 websocket_mask.bundle ./.gem.20240714-37879-sm77f0
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/websocket-driver-0.7.6/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20240714-37879-sm77f0 sitelibdir\=./.gem.20240714-37879-sm77f0 clean
