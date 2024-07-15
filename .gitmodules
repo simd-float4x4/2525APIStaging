@@ -1,0 +1,3 @@
+[submodule "niconicoResearcherAPI"]
+    path = niconicoResearcherAPI
+    url = https://github.com/simd-float4x4/2525API
