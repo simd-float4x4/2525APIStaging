@@ -1,5 +1,5 @@
 current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.3/ext/nio4r
-/Users/asobu_dev/.rbenv/versions/3.3.3/bin/ruby extconf.rb
+/Users/asobu_dev/.rbenv/versions/3.3.4/bin/ruby extconf.rb
 checking for unistd.h... yes
 checking for rb_io_descriptor()... yes
 checking for linux/aio_abi.h... no
@@ -14,10 +14,10 @@ checking for sys/resource.h... yes
 creating Makefile
 
 current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.3/ext/nio4r
-make DESTDIR\= sitearchdir\=./.gem.20240714-37879-42nao8 sitelibdir\=./.gem.20240714-37879-42nao8 clean
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-tdx0tb sitelibdir\=./.gem.20240715-89014-tdx0tb clean
 
 current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.3/ext/nio4r
-make DESTDIR\= sitearchdir\=./.gem.20240714-37879-42nao8 sitelibdir\=./.gem.20240714-37879-42nao8
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-tdx0tb sitelibdir\=./.gem.20240715-89014-tdx0tb
 compiling bytebuffer.c
 compiling monitor.c
 compiling nio4r_ext.c
@@ -360,8 +360,8 @@ compiling selector.c
 linking shared-object nio4r_ext.bundle
 
 current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.3/ext/nio4r
-make DESTDIR\= sitearchdir\=./.gem.20240714-37879-42nao8 sitelibdir\=./.gem.20240714-37879-42nao8 install
-/usr/bin/install -c -m 0755 nio4r_ext.bundle ./.gem.20240714-37879-42nao8
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-tdx0tb sitelibdir\=./.gem.20240715-89014-tdx0tb install
+/usr/bin/install -c -m 0755 nio4r_ext.bundle ./.gem.20240715-89014-tdx0tb
 
 current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/nio4r-2.7.3/ext/nio4r
-make DESTDIR\= sitearchdir\=./.gem.20240714-37879-42nao8 sitelibdir\=./.gem.20240714-37879-42nao8 clean
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-tdx0tb sitelibdir\=./.gem.20240715-89014-tdx0tb clean

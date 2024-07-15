@@ -1,0 +1,18 @@
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+/Users/asobu_dev/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-u7zi8d sitelibdir\=./.gem.20240715-89014-u7zi8d clean
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-u7zi8d sitelibdir\=./.gem.20240715-89014-u7zi8d
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-u7zi8d sitelibdir\=./.gem.20240715-89014-u7zi8d install
+/usr/bin/install -c -m 0755 cruby.bundle ./.gem.20240715-89014-u7zi8d/skiptrace/internal
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-u7zi8d sitelibdir\=./.gem.20240715-89014-u7zi8d clean

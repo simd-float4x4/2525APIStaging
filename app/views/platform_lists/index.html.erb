@@ -1,0 +1,54 @@
+<div class = "container">
+
+  <div class="table-responsive">
+    <h4 class="mt-5 mb-5">
+        <b>プラットフォーム一覧</b> 
+    </h4>
+    <table class="table table-dark table-striped-columns table-hover  table-sm" style="white-space: nowrap;">
+    <th class="table-secondary">
+          <tr>
+                <td>
+                    ID
+                </td>
+                <td>
+                    名前
+                </td>
+                <td>
+                    アイコン
+                </td>
+                <td>
+                    イメージURL
+                </td>
+                <td>
+                    brandColor
+                </td>
+                <td>
+                    アクション
+                </td>
+            </tr>
+        </th>
+        <% @platform_lists.each do |p| %>
+            <tr>
+              <td>
+                <%= p.platformId %>
+              </td>
+              <td>
+                <%= p.platformName %>
+              </td>
+              <td>
+                <%= p.icon %>
+              </td>
+              <td>
+                <%= p.imageURL %>
+              </td>
+              <td>
+                <%= p.brandColor %>
+              </td>
+              <td>
+                
+              </td>
+            </tr>
+        <% end %>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class = "container">
+
+  <div class="mt-5 mr-5">
+    <%= link_to "バナー登録する", move_banners_create_path, class: "btn btn-warning" %>
+  </div>
+
+  <div class="mt-5 mr-5">
+    <% if !@banners.first %>
+      現在登録されているデータはございません
+    <% elsif @banners.first.hasPublished == true %>
+      <%= link_to "下書きに戻す", user_change_status_path, method: :post, class: "btn btn-info" %>
+    <% else %>
+      <%= link_to "本番公開する", user_change_status_path, method: :post, class: "btn btn-warning" %>
+    <% end %>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-striped-columns table-hover  table-sm" style="white-space: nowrap;">
+    <th class="table-secondary">
+          <tr>
+            <td>
+              ID
+            </td>
+            <td>
+              並び順
+            </td>
+            <td>
+              タイトル
+            </td>
+            <td>
+              画像
+            </td>
+            <td>
+              遷移先
+            </td>
+            <td>
+              アクション
+            </td>
+          </tr>
+        </th>
+        <% @banners.each do |image| %>
+            <tr>
+              <td>
+                <%= image.id %>
+              </td>
+              <td>
+                <%= image.imageSortNumber %>
+              </td>
+              <td>
+                <%= image.imageTitle %>
+              </td>
+              <td>
+                <%= image_tag image.image %>
+              </td>
+              <td>
+                <%= image.transitionURL %>
+              </td>
+              <td>
+                <%= link_to "削除", banners_destroy_path(itemId: image.id), class: "btn btn-danger" %>
+              </td>
+            </tr>
+        <% end %>
+    </table>
+  </div>
+</div>

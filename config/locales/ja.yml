@@ -1,0 +1,12 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        nickname: ニックネーム
+      tweet:
+        text: テキスト
+        image: 画像
+  activemodel:   # Formオブジェクトを用いた場合
+     attributes:
+       order_object:
+         post_code: 郵便番号

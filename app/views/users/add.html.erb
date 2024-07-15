@@ -1,0 +1,108 @@
+<%= form_with url: post_user_add_path, model: @this, local: true do |f| %>
+    <div class="container">
+        <h4 class="mt-5 mb-5">
+            <b> <%= @this.name %> (# <%= @this.hashtag %> ) </b> 
+        </h4>
+    </div>
+
+    <div class="container mt-5">
+        <p>
+        【このユーザーが登録中のフォーム】
+        </p>
+        <% @up.each do |p| %>
+            <ul>
+                <li><%= p.platformName %> （<%= p.accountUserUrl %>）</li>
+            </ul>
+        <% end %>
+        <br>
+        <%= f.fields_for :user_platforms do |platform_form| %>
+        <table class="table mb-5">
+            <tbody>
+                <tr>
+                    <td scope="row" style="width: 30%">プラットフォーム</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                プラットフォームを参照
+                            </button>
+                            <ul class="dropdown-menu">
+                                <% @platforms.each do |platform| %>
+                                    <li>
+                                    <button class="dropdown-item" type="button" data-id="<%= platform.platformId %>" data-name="<%= platform.platformName %>">
+                                        <%= platform.platformId %>. <%= platform.platformName %>
+                                    </button>
+                                    </li>
+                                <% end %>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">プラットフォームID</td>
+                    <td>
+                        <%= platform_form.text_field :platformId, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">プラットフォーム名</td>
+                    <td>
+                       <%= platform_form.text_field :platformName, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">ユーザーID（Twitchのみ）</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserId, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">アカウント名</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserName, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">アカウントURL</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserUrl, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">表示するIDテキスト</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserSubText, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">アカウントアイコン画像URL</td>
+                    <td>
+                        <%= platform_form.text_field :accountIconImageUrl, class: "form-control" %>
+                    </td>
+                </tr>
+        </tbody>
+        <%= platform_form.hidden_field :userId, :value => @this.userId %>
+        <%= platform_form.hidden_field :itemId, :value => '10' %>
+        <%= platform_form.hidden_field :hasAccount, :value => "false" %>
+        <%= platform_form.hidden_field :isBroadCasting, :value => "false" %>
+    </table>
+    <% end %>
+</div>
+
+    <div class="container mt-5 mb-5">
+        <div class="d-grid gap-2">
+            <%= f.submit "この内容で登録する", class: "btn btn-success" %>
+            <%= link_to '破棄する', :back, class: "btn btn-secondary" %>
+        </div>
+    </div>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".platform-select").forEach(function(button) {
+      button.addEventListener("click", function() {
+        document.getElementById('selected_platform').value = this.getAttribute('data-id');
+        document.getElementById('selected_platform_name').value = this.getAttribute('data-name');
+      });
+    });
+  });
+</script>

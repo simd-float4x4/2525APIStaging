@@ -1,0 +1,30 @@
+<div class="d-flex align-items-center justify-content-center min-vh-100">
+    <div class="row span-4 ">
+        <div class="col"></div>
+        <div class="col">
+            <div class="toast show">
+                <div class="toast-header">
+                    Authentication - You Need Login!
+                </div>
+                <div class="toast-body">
+                    <%= form_with url: first_login_sessions_path, local: true, method: :post do |f| %>
+                        <div class="mb-3">
+                            <%= f.label :tokenA, "Token A", class: "form-label"%>
+                            <%= f.password_field :tokenA, class: "form-control" %>
+                        </div>
+                        <div class="mb-3">
+                            <%= f.label :tokenB, "Token B", class: "form-label"%>
+                            <%= f.password_field :tokenB, class: "form-control" %>
+                        </div>
+                        <div class="mb-3">
+                            <%= f.label :tokenC, "Token C", class: "form-label"%>
+                            <%= f.password_field :tokenC, class: "form-control" %>
+                        </div>
+                        <%= f.submit "Authenticate", class: "btn btn-primary w-100" %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

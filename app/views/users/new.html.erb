@@ -1,0 +1,115 @@
+<%= form_with url: post_user_create_path, model: @user, local: true do |f| %>
+    <div class="container">
+        <h4 class="mt-5 mb-5">
+            <b>ユーザー新規作成</b> 
+        </h4>
+        <% if @user.errors.any? %>
+            <div id="error_explanation" class="alert alert-danger">
+            <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+            <ul>
+                <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+            </ul>
+            </div>
+        <% end %>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td scope="row" style="width: 30%">ユーザーネーム</td>
+                    <td>
+                        <%= f.text_field :name, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">ハッシュ番号</td>
+                    <td>
+                        <%= f.text_field :hashtag, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">メタタグ</td>
+                    <td>
+                        <%= f.fields_for :user_meta_names do |meta_form| %>
+                            <%= meta_form.text_field :userMetaName, class: "form-control" %>
+                        <% end %>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container mt-5">
+        <table class="table">
+            <tbody>
+            <%= f.fields_for :user_platforms do |platform_form| %>
+                <tr>
+                    <td scope="row" style="width: 30%">プラットフォーム</td>
+                    <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            プラットフォームを選択
+                        </button>
+                        <ul class="dropdown-menu">
+                            <% @platforms.each do |platform| %>
+                                <li>
+                                <button class="dropdown-item" type="button" data-id="<%= platform.platformId %>" data-name="<%= platform.platformName %>">
+                                    <%= platform.platformId %>. <%= platform.platformName %>
+                                </button>
+                                </li>
+                            <% end %>
+                        </ul>
+                    </div>
+                    
+                        <div class="form-group">
+                            <%= platform_form.hidden_field :platformId, id: 'selected_platform' %>
+                            <%= platform_form.hidden_field :platformName, id: 'selected_platform_name' %>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">ユーザーID（Twitchのみ）</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserId, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">アカウント名</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserName, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">アカウントURL</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserUrl, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">表示するIDテキスト</td>
+                    <td>
+                        <%= platform_form.text_field :accountUserSubText, class: "form-control" %>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" style="width: 30%">アカウントアイコン画像URL</td>
+                    <td>
+                        <%= platform_form.text_field :accountIconImageUrl, class: "form-control" %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <%= platform_form.hidden_field :itemId, :value => :id %>
+        <%= platform_form.hidden_field :hasAccount, :value => "false" %>
+        <%= platform_form.hidden_field :isBroadCasting, :value => "false" %>
+    <% end %>
+</div>
+
+<div class="container mt-5 mb-5">
+<div class="d-grid gap-2">
+    <%= f.submit "この内容で登録する", class: "btn btn-success" %>
+    <%= link_to '破棄する', :back, class: "btn btn-secondary" %>
+</div>
+</div>
+<% end %>

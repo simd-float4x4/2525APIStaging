@@ -1,0 +1,2 @@
+class PlatformList < ApplicationRecord
+end

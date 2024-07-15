@@ -1,0 +1,32 @@
+<div class="container">
+<%= form_with url: post_notice_create_path, model: @notice, local: true do |f| %>
+        <h4 class="mt-5 mb-5">
+            <b>記事の新規作成</b> 
+        </h4>
+
+        <div class="container mt-5 mb-5">
+            <div class="container mt-5 mb-5">
+                <%= f.label :title, 'タイトル' %>
+                <%= f.text_field :title, required: true, class: "form-control" %>
+            </div>
+
+            <div class="container mt-5 mb-5">
+                <%= f.label :mainCategory, 'カテゴリ' %>
+                <%= f.text_field :mainCategory, required: true, class: "form-control" %>
+            </div>
+
+            <div class="container mt-5 mb-5">
+                <%= f.label :body, '本文' %>
+                <%= f.text_area :body, class: "form-control" %>
+            </div>
+
+            <%= f.hidden_field :date, :value => Time.zone.now.strftime("%Y.%m.%d") %>
+            <%= f.hidden_field :hasPublished, :value => "false" %>
+
+            <div class="d-grid gap-2">
+                <%= f.submit "この内容で登録する", class: "btn btn-success" %>
+                <%= link_to '破棄する', :back, class: "btn btn-secondary" %>
+            </div>
+        </div>
+    <% end %>
+</div>

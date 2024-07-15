@@ -1,0 +1,18 @@
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/stringio-3.1.1/ext/stringio
+/Users/asobu_dev/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/stringio-3.1.1/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-kkpzfp sitelibdir\=./.gem.20240715-89014-kkpzfp clean
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/stringio-3.1.1/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-kkpzfp sitelibdir\=./.gem.20240715-89014-kkpzfp
+compiling stringio.c
+linking shared-object stringio.bundle
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/stringio-3.1.1/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-kkpzfp sitelibdir\=./.gem.20240715-89014-kkpzfp install
+/usr/bin/install -c -m 0755 stringio.bundle ./.gem.20240715-89014-kkpzfp
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/stringio-3.1.1/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-kkpzfp sitelibdir\=./.gem.20240715-89014-kkpzfp clean

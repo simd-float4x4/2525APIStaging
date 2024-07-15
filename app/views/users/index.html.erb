@@ -1,0 +1,139 @@
+<div class = "container">
+
+  <div class = "container row mt-5">
+    <div class="col">
+      <%= link_to "新規ユーザーの登録", move_user_create_path, class: "btn btn-warning" %>
+    </div>
+
+    <div class="col">
+      <%= link_to "既存ユーザーに追加", user_hashtag_search_path, class: "btn btn-warning" %>
+    </div>
+
+    <div class="col">
+      <%= link_to "APIの表示", user_API_path, class: "btn btn-warning" %>
+    </div>
+
+    <div class="col">
+      <%= form_with url: fetch_API_path, method: :get, local: true do |f| %>
+        <%= f.submit "APIを使ってデータを更新する", class: "btn btn-info ml-3" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class = "d-flex flex-row mt-5">
+      <%= form_with url: user_search_path, method: :get, local: true do |f| %>
+        <%= f.text_field :word, class: 'form-control' %>
+        <%= f.submit "検索", class: "btn btn-success" %>
+      <% end %>
+  </div>
+
+  <div class = "container row mt-5">
+    <div class="col">
+      <%= link_to "バナー", banners_index_path, class: "btn btn-warning" %>
+    </div>
+
+
+    <div class="col">
+      <%= link_to "お知らせ", notice_index_path, class: "btn btn-warning" %>
+    </div>
+
+
+    <div class="col">
+      <%= link_to "プラットフォーム", platform_list_path, class: "btn btn-warning" %>
+    </div>
+
+    <div class="col">
+      <%= link_to "ログイン履歴", login_history_index_path, class: "btn btn-warning" %>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-striped-columns table-hover  table-sm" style="white-space: nowrap;">
+    <th class="table-secondary">
+          <tr>
+            <td>
+              ID
+            </td>
+            <td>
+              #
+            </td>
+            <td>
+              名前
+            </td>
+            <td>
+              配信場所
+            </td>
+            <td>
+              アカウント名
+            </td>
+            <td>
+              表示用テキスト
+            </td>
+            <td>
+              URL
+            </td>
+            <td>
+              放送中？
+            </td>
+            <td>
+              アカウント状況
+            </td>
+            <td>
+              アクション
+            </td>
+            </tr>
+        </th>
+        <% @users.each do |u| %>
+          <% u.user_platforms.each do |us| %>
+            <tr>
+              <td>
+                <%= us.id %>
+              </td>
+              <td>
+                <%= u.hashtag %>
+              </td>
+              <td>
+                <%= u.name %>
+              </td>
+              <td>
+                <%= us.platformName %>
+              </td>
+              <td>
+                <%= us.accountUserName %>
+              </td>
+              <td>
+                <%= us.accountUserSubText %>
+              </td>
+              <td>
+                <button type="button" class="btn btn-link">
+                  <%= link_to us.accountUserUrl, us.accountUserUrl, target: :_blank, rel: "noopener noreferrer" %>
+                </button>
+              </td>
+              <td>
+                <% if us.isBroadCasting == true %>
+                  <button type="button" class="btn btn-outline-danger">配信中</button>
+                <% end %>
+              </td>
+              <td>
+                <% if us.hasAccount == false %>
+                　<button type="button" class="btn btn-outline-info">凍結済</button>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to "編集", user_edit_path(userId: u.userId, itemId: us.id), class: "btn btn-primary" %>
+                <% if us.hasAccount == true %>
+                  <%= link_to "非公開", user_suspend_path(userId: u.userId, itemId: us.id), method: :post, class: "btn btn-warning" %>
+                <% elsif us.hasAccount == false %>
+                  <%= link_to "公開", user_suspend_path(userId: u.userId, itemId: us.id), method: :post, class: "btn btn-info" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+    </table>
+  </div>
+</div>
+
+<div class="container">
+  <%= paginate @users, theme: 'twitter-bootstrap-4' %>
+</div>

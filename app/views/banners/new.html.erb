@@ -1,0 +1,41 @@
+<div class="container">
+<%= form_with url: post_banners_create_path, model: @banner, local: true do |f| %>
+        <h4 class="mt-5 mb-5">
+            <b>バナー新規作成</b> 
+        </h4>
+        <div class="container mt-5 mb-5">
+        
+            <div class="container mt-5 mb-5">
+                <%= f.label :imageTitle, 'タイトル' %>
+                <%= f.text_field :imageTitle, required: true, class: "form-control" %>
+            </div>
+
+            <div class="container mt-5 mb-5">
+                <%= f.label :imageSortNumber, '並び順' %>
+                <%= f.text_field :imageSortNumber, required: true, class: "form-control" %>
+            </div>
+
+            <div class="container mt-5 mb-5">
+                <%= f.label :image, '画像' %>
+                <%= f.file_field :image, required: true %>
+            </div>
+
+            <div class="container mt-5 mb-5">
+                <%= f.label :imageURL, 'DropBoxUrl' %>
+                <%= f.text_field :imageURL, class: "form-control" %>
+            </div>
+
+            <div class="container mt-5 mb-5">
+                <%= f.label :transitionURL, '遷移先' %>
+                <%= f.text_field :transitionURL, class: "form-control" %>
+            </div>
+
+            <%= f.hidden_field :hasPublished, :value => "false" %>
+
+            <div class="d-grid gap-2">
+                <%= f.submit "この内容で登録する", class: "btn btn-success" %>
+                <%= link_to '破棄する', :back, class: "btn btn-secondary" %>
+            </div>
+        </div>
+    <% end %>
+</div>

@@ -1,0 +1,18 @@
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/cgi-0.4.1/ext/cgi/escape
+/Users/asobu_dev/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/cgi-0.4.1/ext/cgi/escape
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-xtw7m0 sitelibdir\=./.gem.20240715-89014-xtw7m0 clean
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/cgi-0.4.1/ext/cgi/escape
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-xtw7m0 sitelibdir\=./.gem.20240715-89014-xtw7m0
+compiling escape.c
+linking shared-object cgi/escape.bundle
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/cgi-0.4.1/ext/cgi/escape
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-xtw7m0 sitelibdir\=./.gem.20240715-89014-xtw7m0 install
+/usr/bin/install -c -m 0755 escape.bundle ./.gem.20240715-89014-xtw7m0/cgi
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/cgi-0.4.1/ext/cgi/escape
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-xtw7m0 sitelibdir\=./.gem.20240715-89014-xtw7m0 clean

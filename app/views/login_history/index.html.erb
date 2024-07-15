@@ -1,0 +1,71 @@
+<div class = "container">
+
+  <div class="table-responsive">
+    <div class="row mt-5 mb-5">
+        <div class="col">
+            <h4>
+                <b>ログイン履歴一覧</b> 
+            </h4>
+        </div>
+        <div class="col row">
+            <%= link_to "ログアウト", destroy_sessions_path, method: :delete, class: "btn btn-warning" %>
+        </div>
+    </div>
+    <div class="row">
+        <%= link_to "トップページへ", user_list_path, class: "btn btn-success" %>
+    </div>
+
+    <table class="table table-dark table-striped-columns table-hover  table-sm" style="white-space: nowrap;">
+    <th class="table-secondary">
+        <tr class="text-center">
+                <td>
+                    ID
+                </td>
+                <td>
+                    日時
+                </td>
+                <td>
+                    IPアドレス
+                </td>
+                <td>
+                    OS
+                </td>
+                <td>
+                    ブラウザ
+                </td>
+                <td>
+                    端末
+                </td>
+                <td>
+                    ユーザーエージェント
+                </td>
+            </tr>
+        </th>
+        <% @history.each do |his| %>
+            <tr class="text-center">
+                <td>
+                    <%= his.id %>
+                </td>
+                <td>
+                    <%= his.created_at %>
+                </td>
+                <td>
+                    <%= his.ipAddress %>
+                </td>
+                <td>
+                    <%= his.os %>
+                </td>
+                <td>
+                    <%= his.browser %>
+                </td>
+                <td>
+                    <%= his.device %>
+                </td>
+                <td>
+                    <%= his.user_agent %>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+  </div>
+</div>

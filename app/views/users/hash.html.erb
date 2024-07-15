@@ -1,0 +1,21 @@
+<%= form_with url: user_hashtag_search_path, method: :get, local: true do |f| %>
+    <div class="container">
+        <h4 class="mt-5 mb-5">
+            <b>ハッシュタグの入力</b> 
+        </h4>
+
+        <div class="row">
+            <%= f.label :hashtag, 'ハッシュタグ' %>
+            <%= f.text_field :hashtag, class: "form-control" %>
+        </div>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="d-grid gap-2">
+                <%= f.submit "ハッシュタグで検索する", class: "btn btn-success" %>
+                <%= link_to '破棄する', :back, class: "btn btn-secondary" %>
+            </div>
+        </div>
+    </div>
+<% end %>

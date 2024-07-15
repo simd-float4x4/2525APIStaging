@@ -1,0 +1,106 @@
+<div class = "container">
+
+  <div class = "container row mt-5">
+    <div class="col">
+      <%= link_to "お知らせの新規登録", move_notice_create_path, class: "btn btn-warning" %>
+    </div>
+
+    <div class="col">
+      <%= link_to "APIの表示", notice_list_path, class: "btn btn-warning" %>
+    </div>
+
+    <div class="col">
+      <%= link_to "バージョンアップ", current_v_version_index_path, class: "btn btn-success" %>
+    </div>
+
+    <div class="col">
+      現行バージョン：
+      <% if @version %>
+        <% @version.version %>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="table-responsive">
+    <table class="table table-dark table-striped-columns table-hover  table-sm" style="white-space: nowrap;">
+    <th class="table-secondary">
+          <tr class="text-center">
+            <td>
+              ID
+            </td>
+            <td>
+              発行日
+            </td>
+            <td>
+              カテゴリ
+            </td>
+            <td>
+              タイトル
+            </td>
+            <td>
+              公開／非公開
+            </td>
+            <td>
+              created_at
+            </td>
+            <td>
+              updated_at
+            </td>
+            <td>
+              状態
+            </td>
+            <td>
+              編集
+            </td>
+            <td>
+              削除
+            </td>
+          </tr>
+        </th>
+
+        <% @notices.each do |notice| %>
+            <tr class="text-center">
+              <td>
+                <%= notice.id %>
+              </td>
+              <td>
+                <%= notice.date %>
+              </td>
+              <td>
+                <%= notice.mainCategory %>
+              </td>
+              <td>
+                <%= notice.title %>
+              </td>
+              <td>
+                <% if notice.hasPublished == true %>
+                  公開
+                <% else %>
+                  非公開
+                <% end %>
+              </td>
+              <td>
+                <%= notice.created_at.strftime("%Y年 %m月%d日 %H:%M:%S") %>
+              </td>
+              <td>
+                <%= notice.updated_at.strftime("%Y年 %m月%d日 %H:%M:%S") %>
+              </td>
+              <td>
+                <% if notice.hasPublished == true %>
+                  <%= link_to "非公開", notice_change_path(id: notice.id), method: :post, class: "btn btn-warning" %>
+                <% elsif notice.hasPublished == false %>
+                  <%= link_to "公開", notice_change_path(id: notice.id), method: :post, class: "btn btn-info" %>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to "編集", notice_edit_path(id: notice.id), class: "btn btn-warning" %>
+              </td>
+              <td>
+                <%= link_to "削除", move_notice_destroy_path(id: notice.id), class: "btn btn-danger" %>
+              </td>
+            </tr>
+        <% end %>
+    </table>
+  </div>
+</div>

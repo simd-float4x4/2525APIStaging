@@ -13,12 +13,12 @@ NULLCMD = :
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /Users/asobu_dev/.rbenv/versions/3.3.3/include/ruby-3.3.0
+topdir = /Users/asobu_dev/.rbenv/versions/3.3.4/include/ruby-3.3.0
 hdrdir = $(topdir)
-arch_hdrdir = /Users/asobu_dev/.rbenv/versions/3.3.3/include/ruby-3.3.0/arm64-darwin23
+arch_hdrdir = /Users/asobu_dev/.rbenv/versions/3.3.4/include/ruby-3.3.0/arm64-darwin23
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/Users/asobu_dev/.rbenv/versions/3.3.3
+prefix = $(DESTDIR)/Users/asobu_dev/.rbenv/versions/3.3.4
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)

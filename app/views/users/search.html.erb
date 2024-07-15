@@ -1,0 +1,101 @@
+<div class = "container">
+  <div class="mt-5 mr-5">
+    <%= link_to "ユーザー登録する", move_user_create_path, class: "btn btn-warning" %>
+    <div class="mb-9">
+      <%= form_with url: user_search_path, method: :get, local: true do |f| %>
+        <%= f.text_field :word %>
+        <%= f.submit "検索", class: "btn btn-success" %>
+      <% end %>
+    </div>
+
+    <button type="button" class="btn btn-info ml-3">APIを使ってデータを更新する</button>
+
+    <button type="button" class="btn btn-info ml-3">プラットフォーム／お知らせ登録</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-striped-columns table-hover  table-sm" style="white-space: nowrap;">
+    <th class="table-secondary">
+          <tr>
+            <td>
+              ID
+            </td>
+            <td>
+              #
+            </td>
+            <td>
+              名前
+            </td>
+            <td>
+              配信場所
+            </td>
+            <td>
+              アカウント名
+            </td>
+            <td>
+              表示用テキスト
+            </td>
+            <td>
+              URL
+            </td>
+            <td>
+              放送中？
+            </td>
+            <td>
+              アカウント状況
+            </td>
+            <td>
+              アクション
+            </td>
+            </tr>
+        </th>
+        <% @users.each do |u| %>
+          <% u.user_platforms.each do |us| %>
+            <tr>
+              <td>
+                <%= us.id %>
+              </td>
+              <td>
+                <%= u.hashtag %>
+              </td>
+              <td>
+                <%= u.name %>
+              </td>
+              <td>
+                <%= us.platformName %>
+              </td>
+              <td>
+                <%= us.accountUserName %>
+              </td>
+              <td>
+                <%= us.accountUserSubText %>
+              </td>
+              <td>
+                <button type="button" class="btn btn-link">
+                  <%= link_to us.accountUserUrl, us.accountUserUrl, target: :_blank, rel: "noopener noreferrer" %>
+                </button>
+              </td>
+              <td>
+                <% if us.isBroadCasting == true %>
+                  <button type="button" class="btn btn-outline-danger">配信中</button>
+                <% end %>
+              </td>
+              <td>
+                <% if us.hasAccount == false %>
+                　<button type="button" class="btn btn-outline-info">凍結済</button>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to "編集", user_edit_path(userId: u.userId, itemId: us.id), class: "btn btn-primary" %>
+                <% if us.hasAccount == true %>
+                  <%= link_to "非公開", user_suspend_path(userId: u.userId, itemId: us.id), method: :post, class: "btn btn-warning" %>
+                <% elsif us.hasAccount == false %>
+                  <%= link_to "公開", user_suspend_path(userId: u.userId, itemId: us.id), method: :post, class: "btn btn-info" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+    </table>
+  </div>
+</div>
