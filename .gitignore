@@ -36,3 +36,6 @@
 
 #env
 /.env
+
+# Certificate
+/prod-ca-2021.crt

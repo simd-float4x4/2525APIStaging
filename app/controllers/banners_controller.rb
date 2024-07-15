@@ -1,4 +1,7 @@
 class BannersController < ApplicationController
+  before_action :logged_in?
+  skip_before_action :logged_in?, only: %i[list]
+
     def list
       banners = Banner.all.order(imageSortNumber: "DESC").where(hasPublished: true)
 

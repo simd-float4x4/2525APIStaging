@@ -8,9 +8,6 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.4"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
-
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
@@ -22,6 +19,10 @@ gem "turbo-rails"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
+
+# Use pg as the database for Active Record
+# gem "pg", "~> 1.4"
+gem "pg"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
@@ -52,6 +53,10 @@ gem "sassc-rails"
 
 gem 'kaminari', '~> 0.17.0'
 gem 'bootstrap4-kaminari-views'
+
+gem 'rack-cors'
+
+gem 'httparty'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

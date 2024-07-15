@@ -8,15 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-Donut.create(
-  id: 1,
-  name: 'root',
-  tokenA: 'a',
-  tokenB: 'a',
-  tokenC: 'a',
-  tokenD: '123456',
-)
-
 Platform.create(
   platformId: 1, 
   platformName: 'Twitch', 
@@ -509,4 +500,13 @@ UserPlatform.create(
   accountUserUrl: 'https://www.twitch.tv/moshushidayo',
   hasAccount: true,
   isBroadCasting: false,
+)
+
+Donut.create(
+  id: 1,
+  name: 'root',
+  tokenA: 'a',
+  tokenB: 'a',
+  tokenC: 'a',
+  tokenD: '123456',
 )

@@ -1,4 +1,7 @@
 class NoticeController < ApplicationController
+  before_action :logged_in?
+  skip_before_action :logged_in?, only: %i[list, first]
+
       def list
         notices = Notice.all.order(created_at: "DESC").where(hasPublished: true)
 

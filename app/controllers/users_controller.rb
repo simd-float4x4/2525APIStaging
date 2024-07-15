@@ -1,42 +1,6 @@
 class UsersController < ApplicationController
-  def list
-    users = User.includes(:user_meta_names, :user_platforms)
-
-    shuffled_users =  users.shuffle
-
-    users_with_meta = shuffled_users.map do |user|
-      {
-        userId: user.userId,
-        hashtag: '#' + user.hashtag,
-        name: user.name,
-        metaNames: user.user_meta_names.map(&:userMetaName),
-        userPlatforms: user.user_platforms.map do |up|
-          if up.hasAccount == true 
-            {
-              itemId: up.id,
-              platformId: up.platformId,
-              platformName: up.platformName,
-              accountUserId: up.accountUserId,
-              accountUserName: up.accountUserName,
-              accountIconImageUrl: up.accountIconImageUrl,
-              accountUserUrl: up.accountUserUrl,
-              accountUserSubText: '@' + up.accountUserSubText,
-              hasAccount: up.hasAccount,
-              isBroadCasting: up.isBroadCasting
-            }
-          else 
-            {
-              itemId: up.itemId,
-              hasAccount: false
-            }
-          end
-        end
-      }
-    end
-
-    pretty_json = JSON.pretty_generate(users_with_meta)
-    render plain: pretty_json
-  end
+  before_action :logged_in?
+  skip_before_action :logged_in?
 
   def index
     @users = User.all.page(params[:page])
@@ -245,14 +209,12 @@ class UsersController < ApplicationController
       :hasAccount, 
       :isBroadCasting
     )
-  end
 
-  def current_donuts
-    if session[:donut_id]
-      @donut = Donut.find(session[:donut_id])
-    else
-      flash[:alert] = "ログインする必要があります。"
-      redirect_to new_sessions_path
-    end
+  def logged_in?
+      if session[:donut_id]
+          @donut = Donut.find(session[:donut_id])
+          redirect_to user_list_path
+      end
   end
+end
 end

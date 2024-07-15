@@ -1,5 +1,7 @@
 class PlatformListsController < ApplicationController
   before_action :set_platform_list, only: %i[ show update destroy ]
+  before_action :logged_in?
+  skip_before_action :logged_in?, only: %i[list]
 
   def list
     platforms = Platform.all

@@ -26,6 +26,7 @@ module NiconicoResearcherApi
     # in config/environments, which are processed later.
     #
 
+    #　タイムゾーンの設定
     config.time_zone = 'Tokyo'
     # config.eager_load_paths << Rails.root.join("extras")
 

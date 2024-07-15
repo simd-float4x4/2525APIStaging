@@ -1,4 +1,7 @@
 class VersionController < ApplicationController
+  before_action :logged_in?
+  skip_before_action :logged_in?, only: %i[list]
+
   def list
     version = Version.first
     terms = Term.first
