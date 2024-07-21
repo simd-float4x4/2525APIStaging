@@ -3,7 +3,7 @@ class DonutController < ApplicationController
     
     skip_before_action :require_donut_session, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
     before_action :logged_in?, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
-    before_action :set_request_variant
+    # before_action :set_request_variant
 
     def index
         render layout: "layouts/application"
@@ -180,18 +180,19 @@ class DonutController < ApplicationController
 
   def fetchAPI
     # Twitch API
-    begin
-      @client = Twitch::Client.new(
-        client_id: ENV['TWITCH_CLIENT_ID'], 
-        access_token: ENV['TWITCH_ACCESS_TOKEN']
-      )
-    rescue StandardError => e
-      @client = nil
-    end
+    @client = Twitch::Client.new(
+      client_id: ENV['TWITCH_CLIENT_ID'], 
+      access_token: ENV['TWITCH_ACCESS_TOKEN']
+    )
+
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
 
     if @client == nil 
-      webhook_url = ENV['SLACK_WEBHOOK_URL']
       payload = { text: ENV['SLACK_NOTIFICATION_BODY'] }.to_json
+      HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+    else
+      current_time = Time.zone.now
+      payload = { text: "#{current_time.strftime("%H:%M:%S　")}" + "（Twitch）データの取得を開始します" }.to_json
       HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
     end
 
@@ -202,9 +203,21 @@ class DonutController < ApplicationController
       if user_id != ''
         data = @client.streams.list(user_id: user_id)
         stream_data = data.data
+        
         #データを取得
         if stream_data != []
           t.isBroadCasting = true
+          t.accountUserName = stream_data[0].user_name
+          
+          if @client.users.retrieve(id: user_id)
+            t.accountIconImageUrl = @client.users.retrieve(id: user_id).profile_image_url
+          end
+
+          payload = { text: "・" + t.accountUserName + "さんが配信しています" }.to_json
+          HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+
+          payload = { text: stream_data[0] }.to_json
+          HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
           t.save
         else
           t.isBroadCasting = false
@@ -215,15 +228,15 @@ class DonutController < ApplicationController
     redirect_to request.referer
   end
 
-    private
-    def set_request_variant
-        request.variant = request.device_type # :pc, :smartphone, etc
-    end
- 
-    def logged_in?
-        if session[:donut_id]
-            @donut = Donut.find(session[:donut_id])
-            redirect_to user_list_path
-        end
-    end
+  private
+  # def set_request_variant
+  #     request.variant = request.device_type # :pc, :smartphone, etc
+  # end
+
+  def logged_in?
+      if session[:donut_id]
+          @donut = Donut.find(session[:donut_id])
+          redirect_to user_list_path
+      end
+  end
 end
