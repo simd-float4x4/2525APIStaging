@@ -180,14 +180,10 @@ class DonutController < ApplicationController
 
   def fetchAPI
     # Twitch API
-    begin
-      @client = Twitch::Client.new(
-        client_id: ENV['TWITCH_CLIENT_ID'], 
-        access_token: ENV['TWITCH_ACCESS_TOKEN']
-      )
-    rescue StandardError => e
-      @client = nil
-    end
+    @client = Twitch::Client.new(
+      client_id: ENV['TWITCH_CLIENT_ID'], 
+      access_token: ENV['TWITCH_ACCESS_TOKEN']
+    )
 
     if @client == nil 
       webhook_url = ENV['SLACK_WEBHOOK_URL']
