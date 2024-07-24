@@ -189,7 +189,6 @@ class DonutController < ApplicationController
     # 返ってくる値にデータがあるなら配信中という認識でOK
     
     whowatch = UserPlatform.where(platformId: 3)
-    puts whowatch
 
     data.each do |category|
       category_id = category['category_id']
