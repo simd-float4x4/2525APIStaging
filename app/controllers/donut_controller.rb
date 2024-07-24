@@ -182,8 +182,8 @@ class DonutController < ApplicationController
   end
 
   def fetchAPI
+
     uri = URI.parse('https://api.whowatch.tv/lives')
-    puts uri
     response = Net::HTTP.get(uri)
     data = JSON.parse(response)
     # 返ってくる値にデータがあるなら配信中という認識でOK
@@ -193,14 +193,17 @@ class DonutController < ApplicationController
 
     data.each do |category|
       category_id = category['category_id']
+      puts "User Name: #{category_id}"
       category['new'].each do |newdata|
         new_id = newdata['id']
         user = newdata['user']
         user_id = user['id']
         user_name = user['name']
+        puts "User Name: #{user_name}"
         user_icon_url = user['icon_url']
         user_path = user['user_path']
             if user['id'] == w.accountUserId
+              puts "User ID: #{user['id']}"
               w.isBroadCasting = true
               w.accountUserName = user.name
               w.save
@@ -253,37 +256,6 @@ class DonutController < ApplicationController
         else
           t.isBroadCasting = false
           t.save
-        end
-      end
-    end
-
-    uri = URI.parse('https://api.whowatch.tv/lives')
-    puts uri
-    response = Net::HTTP.get(uri)
-    data = JSON.parse(response)
-    # 返ってくる値にデータがあるなら配信中という認識でOK
-    
-    whowatch = UserPlatform.where(platformId: 3)
-    puts whowatch
-
-    data.each do | category |
-      puts 'category ===='
-      puts category
-      category.each do | newdata |
-        puts 'newData ===='
-        puts newdata
-        newdata.each do | user |
-          puts 'user ===='
-          puts user
-          whowatch.map do |w|
-            puts 'whowatch ===='
-            puts w
-            if user['id'] == w.accountUserId
-              w.isBroadCasting = true
-              w.accountUserName = user.name
-              w.save
-            end
-          end
         end
       end
     end
