@@ -74,7 +74,7 @@ class DonutController < ApplicationController
                   accountUserUrl: up.accountUserUrl,
                   if platformId === 3 || platformId === 999
                   accountUserSubText: up.accountUserSubText,
-                  elsif
+                  else
                   accountUserSubText: prefix + up.accountUserSubText,
                   end
                   hasAccount: up.hasAccount,
