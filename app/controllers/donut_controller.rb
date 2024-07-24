@@ -247,8 +247,9 @@ class DonutController < ApplicationController
       puts "User Name: #{category_id}"
       category['new'].each do |newdata|
         new_id = newdata['id']
+        puts "New id: #{new_id}"
         user = newdata['user']
-        puts user
+        puts "User: #{user}"
         user_id = user['id']
         user_name = user['name']
         puts "User Name: #{user_name}"
