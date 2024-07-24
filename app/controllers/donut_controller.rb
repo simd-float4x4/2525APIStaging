@@ -232,23 +232,25 @@ class DonutController < ApplicationController
     uri = URI.parse('https://api.whowatch.tv/lives')
     puts uri
     response = Net::HTTP.get(uri)
-    puts response
     data = JSON.parse(response)
-    puts data
     # 返ってくる値にデータがあるなら配信中という認識でOK
     
     whowatch = UserPlatform.where(platformId: 3)
     puts whowatch
 
     data.each do | category |
+      puts 'category ===='
       puts category
       category.each do | newdata |
+        puts 'newData ===='
         puts newdata
         newdata.each do | user |
+          puts 'user ===='
           puts user
           whowatch.map do |w|
+            puts 'whowatch ===='
             puts w
-            if user.id == w.accountUserId
+            if user['id'] == w.accountUserId
               w.isBroadCasting = true
               w.accountUserName = user.name
               w.save
