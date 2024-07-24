@@ -182,6 +182,9 @@ class DonutController < ApplicationController
   end
 
   def fetchAPI
+
+    self.whowatch
+
     # Twitch API
     @client = Twitch::Client.new(
       client_id: ENV['TWITCH_CLIENT_ID'], 
@@ -228,35 +231,6 @@ class DonutController < ApplicationController
         end
       end
     end
-
-    uri = URI.parse('https://api.whowatch.tv/lives')
-    puts uri
-    response = Net::HTTP.get(uri)
-    puts response
-    data = JSON.parse(response)
-    puts data
-    # 返ってくる値にデータがあるなら配信中という認識でOK
-    
-    whowatch = UserPlatform.where(platformId: 3)
-    puts whowatch
-
-    data.each do | category |
-      puts category
-      category.each do | newdata |
-        puts newdata
-        newdata.each do | user |
-          puts user
-          whowatch.map do |w|
-            puts w
-            if user.id == w.accountUserId
-              w.isBroadCasting = true
-              w.accountUserName = user.name
-              w.save
-            end
-          end
-        end
-      end
-    end
     redirect_to request.referer
   end
 
@@ -268,11 +242,21 @@ class DonutController < ApplicationController
     
     whowatch = UserPlatform.where(platformId: 3)
 
-    data.each do | category |
-      category.each do | newdata |
-        newdata.each do | user |
-          whowatch.map do |w|
-            if user.id == w.accountUserId
+    data.each do |category|
+      category_id = category['category_id']
+      puts "User Name: #{category_id}"
+      category['new'].each do |newdata|
+        new_id = newdata['id']
+        puts "New id: #{new_id}"
+        user = newdata['user']
+        puts "User: #{user}"
+        user_id = user['id']
+        user_name = user['name']
+        puts "User Name: #{user_name}"
+        user_icon_url = user['icon_url']
+        user_path = user['user_path']
+            if user['id'] == w.accountUserId
+              puts "User ID: #{user['id']}"
               w.isBroadCasting = true
               w.accountUserName = user.name
               w.save
