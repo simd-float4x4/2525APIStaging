@@ -182,6 +182,34 @@ class DonutController < ApplicationController
   end
 
   def fetchAPI
+    uri = URI.parse('https://api.whowatch.tv/lives')
+    puts uri
+    response = Net::HTTP.get(uri)
+    data = JSON.parse(response)
+    # 返ってくる値にデータがあるなら配信中という認識でOK
+    
+    whowatch = UserPlatform.where(platformId: 3)
+    puts whowatch
+
+    data.each do |category|
+      category_id = category['category_id']
+      category['new'].each do |newdata|
+        new_id = newdata['id']
+        user = newdata['user']
+        user_id = user['id']
+        user_name = user['name']
+        user_icon_url = user['icon_url']
+        user_path = user['user_path']
+            if user['id'] == w.accountUserId
+              w.isBroadCasting = true
+              w.accountUserName = user.name
+              w.save
+            end
+          end
+        end
+      end
+    end
+
     # Twitch API
     @client = Twitch::Client.new(
       client_id: ENV['TWITCH_CLIENT_ID'], 
