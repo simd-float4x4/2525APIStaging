@@ -183,7 +183,7 @@ class DonutController < ApplicationController
 
   def fetchAPI
 
-    Donut.whowatch
+    self.whowatch
 
     # Twitch API
     @client = Twitch::Client.new(
