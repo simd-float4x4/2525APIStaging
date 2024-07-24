@@ -1,6 +1,9 @@
 class DonutController < ApplicationController
     require 'httparty'
-    
+    require 'json'
+    require 'net/http'
+    require 'uri'
+
     skip_before_action :require_donut_session, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
     before_action :logged_in?, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
     # before_action :set_request_variant
@@ -173,7 +176,7 @@ class DonutController < ApplicationController
         
       }
     end
-  
+
     pretty_json = JSON.pretty_generate(version_data)
     render plain: pretty_json
   end
@@ -225,7 +228,59 @@ class DonutController < ApplicationController
         end
       end
     end
+
+    uri = URI.parse('https://api.whowatch.tv/lives')
+    puts uri
+    response = Net::HTTP.get(uri)
+    puts response
+    data = JSON.parse(response)
+    puts data
+    # 返ってくる値にデータがあるなら配信中という認識でOK
+    
+    whowatch = UserPlatform.where(platformId: 3)
+    puts whowatch
+
+    data.each do | category |
+      puts category
+      category.each do | newdata |
+        puts newdata
+        newdata.each do | user |
+          puts user
+          whowatch.map do |w|
+            puts w
+            if user.id == w.accountUserId
+              w.isBroadCasting = true
+              w.accountUserName = user.name
+              w.save
+            end
+          end
+        end
+      end
+    end
     redirect_to request.referer
+  end
+
+  def whowatch
+    uri = URI.parse('https://api.whowatch.tv/lives')
+    response = Net::HTTP.get(uri)
+    data = JSON.parse(response)
+    # 返ってくる値にデータがあるなら配信中という認識でOK
+    
+    whowatch = UserPlatform.where(platformId: 3)
+
+    data.each do | category |
+      category.each do | newdata |
+        newdata.each do | user |
+          whowatch.map do |w|
+            if user.id == w.accountUserId
+              w.isBroadCasting = true
+              w.accountUserName = user.name
+              w.save
+            end
+          end
+        end
+      end
+    end
   end
 
   private
