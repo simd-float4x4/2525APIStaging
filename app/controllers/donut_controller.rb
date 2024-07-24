@@ -261,8 +261,6 @@ class DonutController < ApplicationController
               w.accountUserName = user.name
               w.save
             end
-          end
-        end
       end
     end
   end
