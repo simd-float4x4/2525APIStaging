@@ -54,6 +54,7 @@ class DonutController < ApplicationController
         users = User.includes(:user_meta_names, :user_platforms)
     
         shuffled_users =  users.shuffle
+        prefix = '@'
     
         users_with_meta = shuffled_users.map do |user|
           {
@@ -71,7 +72,11 @@ class DonutController < ApplicationController
                   accountUserName: up.accountUserName,
                   accountIconImageUrl: up.accountIconImageUrl,
                   accountUserUrl: up.accountUserUrl,
-                  accountUserSubText: '@' + up.accountUserSubText,
+                  if platformId === 3 || platformId === 999
+                  accountUserSubText: up.accountUserSubText,
+                  elsif
+                  accountUserSubText: prefix + up.accountUserSubText,
+                  end
                   hasAccount: up.hasAccount,
                   isBroadCasting: up.isBroadCasting
                 }
