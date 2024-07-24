@@ -257,16 +257,16 @@ class DonutController < ApplicationController
         user_icon_url = user['icon_url']
         user_path = user['user_path']
         
-        if whowatch.where(accountUserId: user_id)
-          w = whowatch.where(accountUserId: user_id)
-          puts w
+        if whowatch.where(accountUserId: user['id'])
+          @w = whowatch.where(accountUserId: user['id'])
+          puts @w
           puts "User ID: #{user['id']}"
-          w.isBroadCasting = true
-          w.accountUserName = user['name']
-          w.accountUserSubText = user['user_path']
-          w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
-          w.accountIconImageUrl = user['icon_url']
-          w.save
+          @w.isBroadCasting = true
+          @w.accountUserName = user['name']
+          @w.accountUserSubText = user['user_path']
+          @w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
+          @w.accountIconImageUrl = user['icon_url']
+          @w.save
         end
       end
     end
