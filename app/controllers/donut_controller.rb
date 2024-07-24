@@ -1,6 +1,9 @@
 class DonutController < ApplicationController
     require 'httparty'
-    
+    require 'json'
+    require 'net/http'
+    require 'uri'
+
     skip_before_action :require_donut_session, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
     before_action :logged_in?, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
     # before_action :set_request_variant
@@ -173,7 +176,7 @@ class DonutController < ApplicationController
         
       }
     end
-  
+
     pretty_json = JSON.pretty_generate(version_data)
     render plain: pretty_json
   end
@@ -225,7 +228,40 @@ class DonutController < ApplicationController
         end
       end
     end
+    Donut.whowatch
     redirect_to request.referer
+  end
+
+  def whowatch
+    uri = URI.parse('https://api.whowatch.tv/lives')
+    @response = Net::HTTP.get(uri)
+    data = JSON.parse(response)
+    # 返ってくる値にデータがあるなら配信中という認識でOK
+
+    data.each do |category|
+      category.each do |newdata|
+        newdata.each do |user|
+          if user['id'] == 55017245
+            puts user['name']
+          end
+          if user['id'] == 52636605
+            puts user['name']
+          end
+          if user['id'] == 37787543
+            puts user['name']
+          end
+          if user['id'] == 56674505
+            puts user['name']
+          end
+          if user['id'] == 56084265
+            puts user['name']
+          end
+          if user['id'] == 53279863
+            puts user['name']
+          end
+        end
+      end
+    end
   end
 
   private

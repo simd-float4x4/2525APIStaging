@@ -1,0 +1,22 @@
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.3/ext/bootsnap
+/Users/asobu_dev/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+checking for fdatasync() in unistd.h... yes
+checking for whether -D_GNU_SOURCE is accepted as CPPFLAGS... yes
+checking for whether -O3 is accepted as CFLAGS... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.3/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-jfcly3 sitelibdir\=./.gem.20240715-89014-jfcly3 clean
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.3/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-jfcly3 sitelibdir\=./.gem.20240715-89014-jfcly3
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.bundle
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.3/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-jfcly3 sitelibdir\=./.gem.20240715-89014-jfcly3 install
+/usr/bin/install -c -m 0755 bootsnap.bundle ./.gem.20240715-89014-jfcly3/bootsnap
+
+current directory: /Users/asobu_dev/Desktop/Project/System/2525API/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.3/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20240715-89014-jfcly3 sitelibdir\=./.gem.20240715-89014-jfcly3 clean

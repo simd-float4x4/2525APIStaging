@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: test
+
+production:
+  <<: *default
+  host: <%= ENV["SUPABASE_DATABASE_HOST"] %>
+  username: postgres.gxgrvwhzsjmrbqlzgpot
+  port: <%= ENV["SUPABASE_DATABASE_PORT"] %>
+  database: postgres
+  password: <%= ENV["SUPABASE_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  prepared_statements: false
+
+test:
+  <<: *default
+  database: 2525_api_test
