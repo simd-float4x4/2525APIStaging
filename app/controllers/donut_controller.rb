@@ -72,7 +72,7 @@ class DonutController < ApplicationController
                   accountUserName: up.accountUserName,
                   accountIconImageUrl: up.accountIconImageUrl,
                   accountUserUrl: up.accountUserUrl,
-                  if platformId === 3 || platformId === 999
+                  if up.platformId == 3 || up.platformId == 999
                   accountUserSubText: up.accountUserSubText,
                   else
                   accountUserSubText: prefix + up.accountUserSubText,
