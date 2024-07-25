@@ -261,7 +261,7 @@ class DonutController < ApplicationController
 
     puts "262 c_is: #{category_ids}"
 
-    Parallel.each(category_ids).each do |category|
+    Parallel.each(category_ids) do |category|
       category['new'].each do |newdata|
         new_id = newdata['id']
         user = newdata['user']
