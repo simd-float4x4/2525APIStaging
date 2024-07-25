@@ -263,7 +263,7 @@ class DonutController < ApplicationController
 
         # APIのuser_idが、UserPlatformにあるか調べる
         # result = w_ups.find { |id| id == user_id }
-        puts "266 re: #{result}"
+        # puts "266 re: #{result}"
 
         #　あったら更新処理
         if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
