@@ -238,13 +238,23 @@ class DonutController < ApplicationController
     response = Net::HTTP.get(uri)
     data = JSON.parse(response)
 
+    w_uids = []
+    w_ups = UserPlatform.where(platformId: 3)
+
+    w_ups.each do | wu |
+      w_uids << w_ups.accountUserId
+    end
+
+    puts "🍔 248 ユーザーIDs: #{w_uids}"
+
     if data
-      puts "👀　258：データの取得を開始しました"
+      puts "👀　242：データの取得を開始しました"
       data.each do |category|
         next if category.nil?
         category['popular'].each do |live|
           user_id = live['user']['id']
-          if UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
+          result = w_ups.find { |id| id == user_id }
+          if result
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
             puts "🍩 272 User Found!: #{user_id}, #{live['user']['name']}"
             w.isBroadCasting = true
@@ -256,6 +266,7 @@ class DonutController < ApplicationController
           end
         end
       end
+      puts "👀　258：ふわっちのスキャニングが完了しました"
     else
       puts "🚨 Whowatch Error: Failed to Fetch Data"
     end
