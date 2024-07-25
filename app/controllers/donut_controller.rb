@@ -242,20 +242,26 @@ class DonutController < ApplicationController
     # 返ってくる値にデータがあるなら配信中という認識でOK
     puts "257 newdata: #{data}"
 
-    # if data
-    #   puts "258 newdata: #{data}"
-    #   data.each do |category|
-    #     next if category.nil?
-    #     puts "260 newdata: #{data}"
-    #     puts "261 category: #{category}"
+    if data
+      puts "258 newdata: #{data}"
+      data.each do |category|
+        next if category.nil?
+        puts "260 newdata: #{data}"
+        puts "261 category: #{category}"
 
-    #     category[:new].each do |live|
-    #       puts "263 id: #{live[:user][:id]}"
-    #     end
-    #   end
-    # else
-    #   puts "data is nil"
-    # end
+        category['popular'].each do |live|
+          puts "A 263 id: #{live['user']['id']}"
+        end
+
+        # category[:new].each do |live|
+        #   puts "B 263 id: #{live[:user][:id]}"
+        # end
+      end
+    else
+      puts "data is nil"
+    end
+
+
 
     data.each do |category|
       puts "258 newdata: #{data}"
