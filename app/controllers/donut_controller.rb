@@ -189,14 +189,14 @@ class DonutController < ApplicationController
   end
 
   def startFetchNotice
-    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    webhook_url = ENV['SLACK_URL']
     current_time = Time.zone.now
     payload = { text: "#{current_time.strftime("%H:%M:%S　")}" + "データの取得を開始します" }.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
   end
 
   def twitcasting
-    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    webhook_url = ENV['SLACK_URL']
     payload = { text: "ツイキャス"}.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
@@ -262,7 +262,7 @@ class DonutController < ApplicationController
   end
 
   def whowatch
-    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    webhook_url = ENV['SLACK_URL']
     payload = { text: "ふわっち"}.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
@@ -308,7 +308,7 @@ class DonutController < ApplicationController
   end
 
   def twitch
-    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    webhook_url = ENV['SLACK_URL']
 
     payload = { text: "Twitch"}.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
