@@ -198,10 +198,10 @@ class DonutController < ApplicationController
     payload = { text: "ツイキャス"}.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
-    TC_URL = "https://apiv2.twitcasting.tv/users/twitcasting_jp/current_live"
+    tc_url = "https://apiv2.twitcasting.tv/users/twitcasting_jp/current_live"
 
     response = HTTParty.get(
-      TC_URL,
+      tc_url,
       headers: {
         "Accept" => "application/json",
         "X-Api-Version" => "2.0",
