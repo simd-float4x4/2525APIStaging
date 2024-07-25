@@ -235,58 +235,30 @@ class DonutController < ApplicationController
 
   def whowatch
     uri = URI.parse('https://api.whowatch.tv/lives')
-    puts "254 response: #{uri}"
     response = Net::HTTP.get(uri)
-    puts "256 response: #{response}"
     data = JSON.parse(response)
-    # 返ってくる値にデータがあるなら配信中という認識でOK
-    puts "257 newdata: #{data}"
 
     if data
-      puts "258 newdata: #{data}"
+      puts "👀　258：データの取得を開始しました"
       data.each do |category|
         next if category.nil?
-        puts "260 newdata: #{data}"
-        puts "261 category: #{category}"
-
         category['popular'].each do |live|
-          puts "A 263 id: #{live['user']['id']}"
+          new_id = live['id']
+          user_id = live['user']['id']
+          if UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
+            w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
+            puts "🍩 272 User Found!: #{user_id}, #{user['name']}"
+            w.isBroadCasting = true
+            w.accountUserName = user['name']
+            w.accountUserSubText = user['user_path']
+            w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
+            w.accountIconImageUrl = user['icon_url']
+            w.save
+          end
         end
-
-        # category[:new].each do |live|
-        #   puts "B 263 id: #{live[:user][:id]}"
-        # end
       end
     else
-      puts "data is nil"
-    end
-
-
-
-    data.each do |category|
-      puts "258 newdata: #{data}"
-      category['popular'].each do |newdata|
-        puts "260 newdata: #{newdata}"
-        new_id = newdata['id']
-        puts "262 newId: #{new_id}"
-        user = newdata['user']
-        puts "264 user: #{user}"
-        user_id = user['id']
-        puts "266 user_id: #{user_id}"
-
-        if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-          w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-          puts w
-          puts "272 User ID: #{user['id']}"
-          w.isBroadCasting = true
-          w.accountUserName = user['name']
-          puts "275 User Name: #{user['name']}"
-          w.accountUserSubText = user['user_path']
-          w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
-          w.accountIconImageUrl = user['icon_url']
-          w.save
-        end
-      end
+      puts "🚨 Whowatch Error: Failed to Fetch Data"
     end
   end
 
