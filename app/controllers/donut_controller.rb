@@ -241,8 +241,6 @@ class DonutController < ApplicationController
     data = JSON.parse(response)
     # 返ってくる値にデータがあるなら配信中という認識でOK
     
-    whowatch = UserPlatform.where(platformId: 3)
-
     data.each do |category|
       category_id = category['category_id']
       puts "User Name: #{category_id}"
@@ -256,8 +254,8 @@ class DonutController < ApplicationController
         puts "User Name: #{user_name}"
         user_icon_url = user['icon_url']
         user_path = user['user_path']
-        
-        if whowatch.where(accountUserId: user['id']).exists?
+
+        if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
           @w = whowatch.where(accountUserId: user['id'])
           puts @w
           puts "User ID: #{user['id']}"
