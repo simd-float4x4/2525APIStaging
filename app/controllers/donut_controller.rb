@@ -243,23 +243,23 @@ class DonutController < ApplicationController
     user_ids = []
     w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
 
-    puts "w: #{w_ups}"
+    puts "246 w: #{w_ups}"
 
     w_ups.each do |query|
       user_ids << query.accountUserId
-      puts "q_i: #{query.accountUserId}"
+      puts "250 q_i: #{query.accountUserId}"
     end
 
-    puts "user_ids: #{user_ids}"
+    puts "253 user_ids: #{user_ids}"
 
     category_ids = []
     data.each do |category|
       category_ids << category['category_id']
       category_id = category['category_id']
-      puts "c_i: #{category_id}"
+      puts "259 c_i: #{category_id}"
     end
 
-    puts "c_is: #{category_ids}"
+    puts "262 c_is: #{category_ids}"
 
     Parallel.each(category_ids).each do |category|
       category['new'].each do |newdata|
@@ -268,15 +268,15 @@ class DonutController < ApplicationController
         user_id = user['id']
 
         result = w_ups.find { |id| id == user_id }
-        puts "re: #{result}"
+        puts "271 re: #{result}"
 
         if result
           @w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
           puts @w
-          puts "User ID: #{user['id']}"
+          puts "276 User ID: #{user['id']}"
           @w.isBroadCasting = true
           @w.accountUserName = user['name']
-          puts "User Name: #{user_name}"
+          puts "279 User Name: #{user['name']}"
           @w.accountUserSubText = user['user_path']
           @w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
           @w.accountIconImageUrl = user['icon_url']
