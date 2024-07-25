@@ -243,16 +243,23 @@ class DonutController < ApplicationController
     user_ids = []
     w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
 
+    puts "w: #{w_ups}"
+
     w_ups.each do |query|
       user_ids << query.accountUserId
+      puts "q_i: #{query.accountUserId}"
     end
+
+    puts "user_ids: #{user_ids}"
 
     category_ids = []
     data.each do |category|
       category_ids << category['category_id']
       category_id = category['category_id']
-      puts "User Name: #{category_id}"
+      puts "c_i: #{category_id}"
     end
+
+    puts "c_is: #{category_ids}"
 
     Parallel.each(category_ids).each do |category|
       category['new'].each do |newdata|
