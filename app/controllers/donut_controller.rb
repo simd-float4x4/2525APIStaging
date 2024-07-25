@@ -3,7 +3,6 @@ class DonutController < ApplicationController
     require 'json'
     require 'net/http'
     require 'uri'
-    require 'parallel'
 
     skip_before_action :require_donut_session, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
     before_action :logged_in?, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
@@ -242,21 +241,20 @@ class DonutController < ApplicationController
 
     user_ids = []
     # 事前に1->999...の順番でUserPlatformを取得
-    w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
+    # w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
 
-    puts "247 w: #{w_ups}"
+    puts "246 w: #{w_ups}"
 
     #　ユーザーIDを取得した配列を用意
-    w_ups.each do |query|
-      user_ids << query.accountUserId
-      puts "252 q_i: #{query.accountUserId}"
-    end
+    # w_ups.each do |query|
+    #   user_ids << query.accountUserId
+    #   puts "251 q_i: #{query.accountUserId}"
+    # end
 
-    puts "255 user_ids: #{user_ids}"
-    puts "256 c_is: #{category_ids}"
+    puts "254 user_ids: #{user_ids}"
+    puts "255 c_is: #{category_ids}"
 
     #　全カテゴリのnewを同時に並行調査（しなくてよかった...）
-    # Parallel.each(category_ids) do |category|
     data.each do |category|
       category['popular'].each do |newdata|
         new_id = newdata['id']
@@ -264,25 +262,24 @@ class DonutController < ApplicationController
         user_id = user['id']
 
         # APIのuser_idが、UserPlatformにあるか調べる
-        result = w_ups.find { |id| id == user_id }
-        puts "270 re: #{result}"
+        # result = w_ups.find { |id| id == user_id }
+        puts "266 re: #{result}"
 
         #　あったら更新処理
-        if result
-          @w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-          puts @w
-          puts "276 User ID: #{user['id']}"
-          @w.isBroadCasting = true
-          @w.accountUserName = user['name']
-          puts "279 User Name: #{user['name']}"
-          @w.accountUserSubText = user['user_path']
-          @w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
-          @w.accountIconImageUrl = user['icon_url']
-          @w.save
+        if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
+          w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
+          puts w
+          puts "272 User ID: #{user['id']}"
+          w.isBroadCasting = true
+          w.accountUserName = user['name']
+          puts "275 User Name: #{user['name']}"
+          w.accountUserSubText = user['user_path']
+          w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
+          w.accountIconImageUrl = user['icon_url']
+          w.save
         end
       end
     end
-    # end
   end
 
   private
