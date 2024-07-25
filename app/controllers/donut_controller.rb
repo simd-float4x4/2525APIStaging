@@ -3,6 +3,7 @@ class DonutController < ApplicationController
     require 'json'
     require 'net/http'
     require 'uri'
+    require 'parallel'
 
     skip_before_action :require_donut_session, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
     before_action :logged_in?, only: [:index, :create, :user_list, :banner_list, :notice_list, :notice_first, :platform_list, :version_list, :fetchAPI]
@@ -239,6 +240,13 @@ class DonutController < ApplicationController
     data = JSON.parse(response)
     # 返ってくる値にデータがあるなら配信中という認識でOK
 
+    user_ids = []
+    w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
+
+    w_ups.each do |query|
+      user_ids << query.accountUserId
+    end
+
     category_ids = []
     data.each do |category|
       category_ids << category['category_id']
@@ -246,14 +254,16 @@ class DonutController < ApplicationController
       puts "User Name: #{category_id}"
     end
 
-    category_ids.each do |category|
+    Parallel.each(category_ids).each do |category|
       category['new'].each do |newdata|
         new_id = newdata['id']
         user = newdata['user']
         user_id = user['id']
 
-        if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-          @w = whowatch.where(accountUserId: user['id'])
+        result = w_ups.find { |id| id == user_id }
+
+        if result
+          @w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
           puts @w
           puts "User ID: #{user['id']}"
           @w.isBroadCasting = true
