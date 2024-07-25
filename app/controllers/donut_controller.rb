@@ -268,6 +268,7 @@ class DonutController < ApplicationController
         user_id = user['id']
 
         result = w_ups.find { |id| id == user_id }
+        puts "re: #{result}"
 
         if result
           @w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
