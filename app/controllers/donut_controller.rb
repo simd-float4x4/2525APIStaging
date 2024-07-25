@@ -244,36 +244,28 @@ class DonutController < ApplicationController
     # 事前に1->999...の順番でUserPlatformを取得
     w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
 
-    puts "246 w: #{w_ups}"
+    puts "247 w: #{w_ups}"
 
     #　ユーザーIDを取得した配列を用意
     w_ups.each do |query|
       user_ids << query.accountUserId
-      puts "250 q_i: #{query.accountUserId}"
+      puts "252 q_i: #{query.accountUserId}"
     end
 
-    puts "253 user_ids: #{user_ids}"
-
-    # カテゴリIDを入れた配列を用意
-    category_ids = []
-    data.each do |category|
-      category_ids << category['category_id']
-      category_id = category['category_id']
-      puts "259 c_i: #{category_id}"
-    end
-
-    puts "262 c_is: #{category_ids}"
+    puts "255 user_ids: #{user_ids}"
+    puts "256 c_is: #{category_ids}"
 
     #　全カテゴリのnewを同時に並行調査（しなくてよかった...）
-    Parallel.each(category_ids) do |category|
-      category['new'].each do |newdata|
+    # Parallel.each(category_ids) do |category|
+    data.each do |category|
+      category['popular'].each do |newdata|
         new_id = newdata['id']
         user = newdata['user']
         user_id = user['id']
 
         # APIのuser_idが、UserPlatformにあるか調べる
         result = w_ups.find { |id| id == user_id }
-        puts "271 re: #{result}"
+        puts "270 re: #{result}"
 
         #　あったら更新処理
         if result
@@ -290,6 +282,7 @@ class DonutController < ApplicationController
         end
       end
     end
+    # end
   end
 
   private
