@@ -242,7 +242,7 @@ class DonutController < ApplicationController
     w_ups = UserPlatform.where(platformId: 3)
 
     w_ups.each do | wu |
-      w_uids << w_ups.accountUserId
+      w_uids << wu.accountUserId
     end
 
     puts "🍔 248 ユーザーIDs: #{w_uids}"
