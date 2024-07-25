@@ -243,7 +243,6 @@ class DonutController < ApplicationController
       data.each do |category|
         next if category.nil?
         category['popular'].each do |live|
-          new_id = live['id']
           user_id = live['user']['id']
           if UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
@@ -251,7 +250,7 @@ class DonutController < ApplicationController
             w.isBroadCasting = true
             w.accountUserName = live['user']['name']
             w.accountUserSubText = live['user']['user_path']
-            w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
+            w.accountUserUrl = 'https://whowatch.tv/viewer/' + live['id'].to_s
             w.accountIconImageUrl = live['user']['icon_url']
             w.save
           end
