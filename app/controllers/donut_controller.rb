@@ -241,10 +241,12 @@ class DonutController < ApplicationController
     # 返ってくる値にデータがあるなら配信中という認識でOK
 
     user_ids = []
+    # 事前に1->999...の順番でUserPlatformを取得
     w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
 
     puts "246 w: #{w_ups}"
 
+    #　ユーザーIDを取得した配列を用意
     w_ups.each do |query|
       user_ids << query.accountUserId
       puts "250 q_i: #{query.accountUserId}"
@@ -252,6 +254,7 @@ class DonutController < ApplicationController
 
     puts "253 user_ids: #{user_ids}"
 
+    # カテゴリIDを入れた配列を用意
     category_ids = []
     data.each do |category|
       category_ids << category['category_id']
@@ -261,15 +264,18 @@ class DonutController < ApplicationController
 
     puts "262 c_is: #{category_ids}"
 
+    #　全カテゴリのnewを同時に並行調査（しなくてよかった...）
     Parallel.each(category_ids) do |category|
       category['new'].each do |newdata|
         new_id = newdata['id']
         user = newdata['user']
         user_id = user['id']
 
+        # APIのuser_idが、UserPlatformにあるか調べる
         result = w_ups.find { |id| id == user_id }
         puts "271 re: #{result}"
 
+        #　あったら更新処理
         if result
           @w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
           puts @w
