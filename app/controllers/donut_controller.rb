@@ -247,12 +247,12 @@ class DonutController < ApplicationController
           user_id = live['user']['id']
           if UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
-            puts "🍩 272 User Found!: #{user_id}, #{user['name']}"
+            puts "🍩 272 User Found!: #{user_id}, #{live['user']['name']}"
             w.isBroadCasting = true
-            w.accountUserName = user['name']
-            w.accountUserSubText = user['user_path']
+            w.accountUserName = live['user']['name']
+            w.accountUserSubText = live['user']['user_path']
             w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
-            w.accountIconImageUrl = user['icon_url']
+            w.accountIconImageUrl = live['user']['icon_url']
             w.save
           end
         end
