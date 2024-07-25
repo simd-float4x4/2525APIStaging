@@ -257,7 +257,7 @@ class DonutController < ApplicationController
         user_icon_url = user['icon_url']
         user_path = user['user_path']
         
-        if whowatch.where(accountUserId: user['id'])
+        if whowatch.where(accountUserId: user['id']).exists?
           @w = whowatch.where(accountUserId: user['id'])
           puts @w
           puts "User ID: #{user['id']}"
