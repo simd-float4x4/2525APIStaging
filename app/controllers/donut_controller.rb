@@ -177,13 +177,137 @@ class DonutController < ApplicationController
         
       }
     end
-
     pretty_json = JSON.pretty_generate(version_data)
     render plain: pretty_json
   end
 
   def fetchAPI
-    # Twitch API
+    self.twitcasting
+    self.twitch
+    self.whowatch
+    redirect_to request.referer
+  end
+
+  def startFetchNotice
+    current_time = Time.zone.now
+    payload = { text: "#{current_time.strftime("%H:%M:%S　")}" + "データの取得を開始します" }.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+  end
+
+  def twitcasting
+    payload = { text: "ツイキャス"}.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+
+    TC_URL = "https://apiv2.twitcasting.tv/users/twitcasting_jp/current_live"
+
+    response = HTTParty.get(
+      TC_URL,
+      headers: {
+        "Accept" => "application/json",
+        "X-Api-Version" => "2.0",
+        "Authorization" => "Bearer #{ENV['TWITCASTING_TOKEN']}"
+      }
+    )
+
+    if response.success?
+      data = response.parsed_response
+
+      twc_uids = []
+      twc_ups = UserPlatform.where(platformId: 2)
+
+      twc_ups.each do | tw |
+        twc_uids << tw.accountUserId
+      end
+
+      puts "🍨 222 ユーザーID: #{twc_uids}"
+
+      if data
+        puts "👀　225：データの取得を開始しました(ツイキャス)"
+        data.each do | user |
+          next if user.nil?
+          user_url = user['movie'].link
+
+          user['broadcaster'].each do |info|
+            user_id = info['id']
+            result = twc_ups.find { |id| id == user_id }
+
+            if result
+              twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
+              puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{info['name']}"
+
+              twc.isBroadCasting = info['is_live']
+              twc.accountUserName = info['name']
+              twc.accountUserSubText = info['screen_id']
+              twc.accountUserUrl = user_url
+              twc.accountIconImageUrl = info['image']
+              twc.save
+  
+              payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
+              HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+            end
+          end
+        end
+        puts "👀　246：ツイキャスのスキャニングが完了しました"
+      else
+        puts "🚨 Whowatch Error: Failed to Fetch Data"
+      end
+
+    else
+      puts "🚨 Twitcasting Error: Failed to Fetch Data"
+      payload = { text: "<!channel> Error: #{response.code} - #{response.message}" }.to_json
+      HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+    end
+  end
+
+  def whowatch
+    payload = { text: "ふわっち"}.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+
+    uri = URI.parse('https://api.whowatch.tv/lives')
+    response = Net::HTTP.get(uri)
+    data = JSON.parse(response)
+
+    w_uids = []
+    w_ups = UserPlatform.where(platformId: 3)
+
+    w_ups.each do | wu |
+      w_uids << wu.accountUserId
+    end
+
+    puts "🍔 248 ユーザーIDs: #{w_uids}"
+
+    if data
+      puts "👀　242：データの取得を開始しました(whowatch)"
+      data.each do |category|
+        next if category.nil?
+        category['popular'].each do |live|
+          user_id = live['user']['id']
+          result = w_ups.find { |id| id == user_id }
+          if result
+            w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
+            puts "🍩 272 User Found!（whowatch）: #{user_id}, #{live['user']['name']}"
+            w.isBroadCasting = true
+            w.accountUserName = live['user']['name']
+            w.accountUserSubText = live['user']['user_path']
+            w.accountUserUrl = 'https://whowatch.tv/viewer/' + live['id'].to_s
+            w.accountIconImageUrl = live['user']['icon_url']
+            w.save
+
+            payload = { text: "・" + w.accountUserName + "さんが配信しています" }.to_json
+            HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+          end
+        end
+      end
+      puts "👀　258：ふわっちのスキャニングが完了しました"
+    else
+      puts "🚨 Whowatch Error: Failed to Fetch Data"
+    end
+  end
+
+  def twitch
+    payload = { text: "Twitch"}.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+
     @client = Twitch::Client.new(
       client_id: ENV['TWITCH_CLIENT_ID'], 
       access_token: ENV['TWITCH_ACCESS_TOKEN']
@@ -193,10 +317,6 @@ class DonutController < ApplicationController
 
     if @client == nil 
       payload = { text: ENV['SLACK_NOTIFICATION_BODY'] }.to_json
-      HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
-    else
-      current_time = Time.zone.now
-      payload = { text: "#{current_time.strftime("%H:%M:%S　")}" + "（Twitch）データの取得を開始します" }.to_json
       HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
     end
 
@@ -228,47 +348,6 @@ class DonutController < ApplicationController
           t.save
         end
       end
-    end
-    self.whowatch
-    redirect_to request.referer
-  end
-
-  def whowatch
-    uri = URI.parse('https://api.whowatch.tv/lives')
-    response = Net::HTTP.get(uri)
-    data = JSON.parse(response)
-
-    w_uids = []
-    w_ups = UserPlatform.where(platformId: 3)
-
-    w_ups.each do | wu |
-      w_uids << wu.accountUserId
-    end
-
-    puts "🍔 248 ユーザーIDs: #{w_uids}"
-
-    if data
-      puts "👀　242：データの取得を開始しました"
-      data.each do |category|
-        next if category.nil?
-        category['popular'].each do |live|
-          user_id = live['user']['id']
-          result = w_ups.find { |id| id == user_id }
-          if result
-            w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
-            puts "🍩 272 User Found!: #{user_id}, #{live['user']['name']}"
-            w.isBroadCasting = true
-            w.accountUserName = live['user']['name']
-            w.accountUserSubText = live['user']['user_path']
-            w.accountUserUrl = 'https://whowatch.tv/viewer/' + live['id'].to_s
-            w.accountIconImageUrl = live['user']['icon_url']
-            w.save
-          end
-        end
-      end
-      puts "👀　258：ふわっちのスキャニングが完了しました"
-    else
-      puts "🚨 Whowatch Error: Failed to Fetch Data"
     end
   end
 
