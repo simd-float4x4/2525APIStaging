@@ -182,6 +182,7 @@ class DonutController < ApplicationController
   end
 
   def fetchAPI
+    self.startFetchNotice
     self.twitcasting
     self.twitch
     self.whowatch
@@ -189,21 +190,19 @@ class DonutController < ApplicationController
   end
 
   def startFetchNotice
-    webhook_url = ENV['SLACK_URL']
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
     current_time = Time.zone.now
     payload = { text: "#{current_time.strftime("%H:%M:%S　")}" + "データの取得を開始します" }.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
   end
 
   def twitcasting
-    webhook_url = ENV['SLACK_URL']
-    payload = { text: "ツイキャス"}.to_json
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    payload = { text: "【ツイキャス】====" }.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
-    tc_url = "https://apiv2.twitcasting.tv/users/twitcasting_jp/current_live"
-
     response = HTTParty.get(
-      tc_url,
+      "https://apiv2.twitcasting.tv/users/twitcasting_jp/current_live",
       headers: {
         "Accept" => "application/json",
         "X-Api-Version" => "2.0",
@@ -262,8 +261,8 @@ class DonutController < ApplicationController
   end
 
   def whowatch
-    webhook_url = ENV['SLACK_URL']
-    payload = { text: "ふわっち"}.to_json
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    payload = { text: "【ふわっち】===="}.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
     uri = URI.parse('https://api.whowatch.tv/lives')
@@ -308,9 +307,9 @@ class DonutController < ApplicationController
   end
 
   def twitch
-    webhook_url = ENV['SLACK_URL']
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
 
-    payload = { text: "Twitch"}.to_json
+    payload = { text: "【Twitch】===="}.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
     @client = Twitch::Client.new(
