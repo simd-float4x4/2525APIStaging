@@ -235,56 +235,53 @@ class DonutController < ApplicationController
 
   def whowatch
     uri = URI.parse('https://api.whowatch.tv/lives')
+    puts "254 response: #{uri}"
     response = Net::HTTP.get(uri)
+    puts "256 response: #{response}"
     data = JSON.parse(response)
     # 返ってくる値にデータがあるなら配信中という認識でOK
+    puts "257 newdata: #{data}"
 
-    user_ids = []
-    # 事前に1->999...の順番でUserPlatformを取得
-    # w_ups = UserPlatform.where(platformId: 3).order(accountUserId: "ASC")
-
-    puts "246 w: #{w_ups}"
-
-    #　ユーザーIDを取得した配列を用意
-    # w_ups.each do |query|
-    #   user_ids << query.accountUserId
-    #   puts "251 q_i: #{query.accountUserId}"
-    # end
-
-    puts "254 user_ids: #{user_ids}"
-    puts "255 c_is: #{category_ids}"
-
-    #　全カテゴリのnewを同時に並行調査（しなくてよかった...）
-    data.each do |category|
+    if data
       puts "258 newdata: #{data}"
-      category.each do |newdata|
-        puts "260 newdata: #{newdata}"
-        new_id = newdata['id']
-        puts "262 newId: #{new_id}"
-        user = newdata['user']
-        puts "264 user: #{user}"
-        user_id = user['id']
-        puts "266 user_id: #{user_id}"
+      data.each do |category|
+        next if category.nil?
+        puts "260 newdata: #{data}"
+        puts "261 category: #{category}"
 
-        # APIのuser_idが、UserPlatformにあるか調べる
-        # result = w_ups.find { |id| id == user_id }
-        # puts "266 re: #{result}"
-
-        #　あったら更新処理
-        if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-          w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-          puts w
-          puts "272 User ID: #{user['id']}"
-          w.isBroadCasting = true
-          w.accountUserName = user['name']
-          puts "275 User Name: #{user['name']}"
-          w.accountUserSubText = user['user_path']
-          w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
-          w.accountIconImageUrl = user['icon_url']
-          w.save
+        category[:new].each do |live|
+          puts "263 id: #{live[:user][:id]}"
         end
       end
+    else
+      puts "data is nil"
     end
+
+    # data.each do |category|
+    #   puts "258 newdata: #{data}"
+    #   category['popular'].each do |newdata|
+    #     puts "260 newdata: #{newdata}"
+    #     new_id = newdata['id']
+    #     puts "262 newId: #{new_id}"
+    #     user = newdata['user']
+    #     puts "264 user: #{user}"
+    #     user_id = user['id']
+    #     puts "266 user_id: #{user_id}"
+
+    #     if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
+    #       w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
+    #       puts w
+    #       puts "272 User ID: #{user['id']}"
+    #       w.isBroadCasting = true
+    #       w.accountUserName = user['name']
+    #       puts "275 User Name: #{user['name']}"
+    #       w.accountUserSubText = user['user_path']
+    #       w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
+    #       w.accountIconImageUrl = user['icon_url']
+    #       w.save
+    #     end
+    #   end
+    # end
   end
 
   private
