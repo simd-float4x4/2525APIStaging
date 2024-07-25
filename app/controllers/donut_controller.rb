@@ -256,10 +256,15 @@ class DonutController < ApplicationController
 
     #　全カテゴリのnewを同時に並行調査（しなくてよかった...）
     data.each do |category|
-      category['popular'].each do |newdata|
+      puts "258 newdata: #{data}"
+      category.each do |newdata|
+        puts "260 newdata: #{newdata}"
         new_id = newdata['id']
+        puts "262 newId: #{new_id}"
         user = newdata['user']
+        puts "264 user: #{user}"
         user_id = user['id']
+        puts "266 user_id: #{user_id}"
 
         # APIのuser_idが、UserPlatformにあるか調べる
         # result = w_ups.find { |id| id == user_id }
