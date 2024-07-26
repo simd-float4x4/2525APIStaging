@@ -213,12 +213,8 @@ class DonutController < ApplicationController
     twc_uids.each do | thisUser |
       # 完全なURLを作成
       host = "https://apiv2.twitcasting.tv/users/"
-
       prefix = "/current_live"
-
       url = URI.join(host, thisUser, prefix).to_s
-
-      puts "🍨 226 url: #{url}"
 
       response = HTTParty.get(
         url,
@@ -229,8 +225,11 @@ class DonutController < ApplicationController
         }
       )
 
+      puts "🥮 226 url: #{url}"
+      puts "Bearer #{ENV['TWITCASTING_TOKEN']}"
+
       puts "🌮 233 ユーザーID: #{thisUser}"
-      # puts "🍌 234 response: #{response}"
+      puts "🍌 234 response: #{response.success?}"
 
       if response.success?
         data = response.parsed_response
