@@ -233,9 +233,9 @@ class DonutController < ApplicationController
       puts "🍌 234 response: #{response}"
       puts "🍌 234 response: #{response.success?}"
 
-      if response.success?
-        data = response.parsed_response
-
+      if response
+        data = response
+      
         if data
           puts "👀　225：データの取得を開始しました(ツイキャス)"
           data.each do | user |
