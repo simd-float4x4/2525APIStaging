@@ -214,19 +214,20 @@ class DonutController < ApplicationController
       # 完全なURLを作成
       host = "https://apiv2.twitcasting.tv/users/"
       prefix = "/current_live"
-      url = URI.join(host, thisUser, prefix).to_s
+      url = URI.join(host, thisUser, prefix)
+      puts puts "🥮 218 url.class: #{url.class}"
 
       response = HTTParty.get(
         url,
         headers: {
           "Accept" => "application/json",
           "X-Api-Version" => "2.0",
-          "Authorization" => "Bearer #{ENV['TWITCASTING_TOKEN']}"
+          "Authorization" => "#{ENV['TWITCASTING_TOKEN']}"
         }
       )
 
       puts "🥮 226 url: #{url}"
-      puts "Bearer #{ENV['TWITCASTING_TOKEN']}"
+      puts "#{ENV['TWITCASTING_TOKEN']}"
 
       puts "🌮 233 ユーザーID: #{thisUser}"
       puts "🍌 234 response: #{response.success?}"
