@@ -215,7 +215,7 @@ class DonutController < ApplicationController
       host = "https://apiv2.twitcasting.tv/users/"
       puts "🥮 218 url.class: #{thisUser}"
       prefix = "/current_live"
-      url = URI.join(host, thisUser, prefix).to_s
+      url = URI.join(host, "#{thisUser}", prefix).to_s
       puts "🥮 218 url.class: #{url.class}"
 
       response = HTTParty.get(
