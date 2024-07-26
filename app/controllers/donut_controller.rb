@@ -213,6 +213,7 @@ class DonutController < ApplicationController
     twc_uids.each do | thisUser |
       # 完全なURLを作成
       host = "https://apiv2.twitcasting.tv/users/"
+      puts "🥮 218 url.class: #{thisUser}"
       prefix = "/current_live"
       url = URI.join(host, thisUser, prefix).to_s
       puts "🥮 218 url.class: #{url.class}"
