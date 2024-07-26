@@ -183,9 +183,9 @@ class DonutController < ApplicationController
 
   def fetchAPI
     self.startFetchNotice
-    self.twitcasting
     self.twitch
     self.whowatch
+    self.twitcasting
     redirect_to request.referer
   end
 
@@ -214,8 +214,7 @@ class DonutController < ApplicationController
       # URLエンコードを行う
       encodedUser = URI.encode_www_form_component(thisUser)
       # 完全なURLを作成
-      ur = "https://apiv2.twitcasting.tv/users/#{encodedUser}/current_live"
-      url = URI.encode_www_form_component(ur)
+      url = "https://apiv2.twitcasting.tv/users/#{encodedUser}/current_live"
 
       response = HTTParty.get(
         url,
