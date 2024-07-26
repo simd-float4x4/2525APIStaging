@@ -216,6 +216,8 @@ class DonutController < ApplicationController
       # 完全なURLを作成
       url = "https://apiv2.twitcasting.tv/users/#{encodedUser}/current_live"
 
+      puts "🍨 226 url: #{url}"
+      
       response = HTTParty.get(
         url,
         headers: {
