@@ -210,12 +210,12 @@ class DonutController < ApplicationController
 
     puts "🍨 222 ユーザーID: #{twc_uids}"
     
-    twc_uids.each do | thisUser |
+    twc_uids.each_with_index do |item, i|
       # 完全なURLを作成
       host = "https://apiv2.twitcasting.tv/users/"
-      puts "🥮 218 url.class: #{thisUser}"
+      puts "🥮 218 url.class: #{item}"
       prefix = "/current_live"
-      url = URI.join(host, "#{thisUser}", prefix).to_s
+      url = URI.join(host, "#{item}", prefix).to_s
       puts "🥮 218 url.class: #{url.class}"
 
       response = HTTParty.get(
