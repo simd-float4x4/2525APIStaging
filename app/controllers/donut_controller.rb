@@ -211,8 +211,9 @@ class DonutController < ApplicationController
     puts "🍨 222 ユーザーID: #{twc_uids}"
     
     twc_uids.each do | thisUser |
+      encodedUser = URI.encode(thisUser)
       response = HTTParty.get(
-        "https://apiv2.twitcasting.tv/users/#{thisUser}/current_live",
+        "https://apiv2.twitcasting.tv/users/#{encodedUser}/current_live",
         headers: {
           "Accept" => "application/json",
           "X-Api-Version" => "2.0",
@@ -220,7 +221,7 @@ class DonutController < ApplicationController
         }
       )
 
-      puts "🥐 233 ユーザーID: #{thisUser}"
+      puts "🌮 233 ユーザーID: #{thisUser}"
       puts "🍌 234 response: #{response}"
 
       if response.success?
