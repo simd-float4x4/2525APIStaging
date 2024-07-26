@@ -201,62 +201,67 @@ class DonutController < ApplicationController
     payload = { text: "【ツイキャス】====" }.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
-    response = HTTParty.get(
-      "https://apiv2.twitcasting.tv/users/twitcasting_jp/current_live",
-      headers: {
-        "Accept" => "application/json",
-        "X-Api-Version" => "2.0",
-        "Authorization" => "Bearer #{ENV['TWITCASTING_TOKEN']}"
-      }
-    )
+    twc_uids = []
+    twc_ups = UserPlatform.where(platformId: 2)
 
-    if response.success?
-      data = response.parsed_response
+    twc_ups.each do | tw |
+      twc_uids << tw.accountUserSubText
+    end
 
-      twc_uids = []
-      twc_ups = UserPlatform.where(platformId: 2)
+    puts "🍨 222 ユーザーID: #{twc_uids}"
+    
+    twc_uids.each do | thisUser |
+      response = HTTParty.get(
+        "https://apiv2.twitcasting.tv/users/#{thisUser}/current_live",
+        headers: {
+          "Accept" => "application/json",
+          "X-Api-Version" => "2.0",
+          "Authorization" => "Bearer #{ENV['TWITCASTING_TOKEN']}"
+        }
+      )
 
-      twc_ups.each do | tw |
-        twc_uids << tw.accountUserId
-      end
+      puts "🥐 233 ユーザーID: #{thisUser}"
+      puts "🍌 234 response: #{response}"
 
-      puts "🍨 222 ユーザーID: #{twc_uids}"
+      if response.success?
+        data = response.parsed_response
 
-      if data
-        puts "👀　225：データの取得を開始しました(ツイキャス)"
-        data.each do | user |
-          next if user.nil?
-          user_url = user['movie'].link
+        if data
+          puts "👀　225：データの取得を開始しました(ツイキャス)"
+          data.each do | user |
+            next if user.nil?
+            user_url = user['movie'].link
 
-          user['broadcaster'].each do |info|
-            user_id = info['id']
-            result = twc_ups.find { |id| id == user_id }
+            user['broadcaster'].each do |info|
+              user_id = info['id']
+              result = twc_ups.find { |id| id == user_id }
 
-            if result
-              twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
-              puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{info['name']}"
+              if result
+                twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
+                puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{info['name']}"
 
-              twc.isBroadCasting = info['is_live']
-              twc.accountUserName = info['name']
-              twc.accountUserSubText = info['screen_id']
-              twc.accountUserUrl = user_url
-              twc.accountIconImageUrl = info['image']
-              twc.save
-  
-              payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
-              HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+                twc.isBroadCasting = info['is_live']
+                twc.accountUserName = info['name']
+                twc.accountUserSubText = info['screen_id']
+                twc.accountUserUrl = user_url
+                twc.accountIconImageUrl = info['image']
+                twc.save
+    
+                payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
+                HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+              end
             end
           end
+          puts "👀　246：ツイキャスのスキャニングが完了しました"
+        else
+          puts "🚨 Whowatch Error: Failed to Fetch Data"
         end
-        puts "👀　246：ツイキャスのスキャニングが完了しました"
-      else
-        puts "🚨 Whowatch Error: Failed to Fetch Data"
-      end
 
-    else
-      puts "🚨 Twitcasting Error: Failed to Fetch Data"
-      payload = { text: "<!channel> Error: #{response.code} - #{response.message}" }.to_json
-      HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+      else
+        puts "🚨 Twitcasting Error: Failed to Fetch Data"
+        payload = { text: "<!channel> Error: #{response.code} - #{response.message}" }.to_json
+        HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+      end
     end
   end
 
@@ -307,6 +312,7 @@ class DonutController < ApplicationController
   end
 
   def twitch
+    puts "👀　310：データの取得を開始しました(twitch)"
     webhook_url = ENV['SLACK_WEBHOOK_URL']
 
     payload = { text: "【Twitch】===="}.to_json
@@ -351,6 +357,7 @@ class DonutController < ApplicationController
         end
       end
     end
+    puts "👀　355：twitchのスキャニングが完了しました"
   end
 
   private
