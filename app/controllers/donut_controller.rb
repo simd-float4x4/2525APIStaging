@@ -234,7 +234,7 @@ class DonutController < ApplicationController
       puts "🍌 234 response: #{response}"
       puts "🍌 234 response: #{response.success?}"
 
-      if response
+      if response.success?
         data = response
       
         if data
