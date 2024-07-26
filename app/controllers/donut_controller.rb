@@ -211,13 +211,15 @@ class DonutController < ApplicationController
     puts "🍨 222 ユーザーID: #{twc_uids}"
     
     twc_uids.each do | thisUser |
-      # URLエンコードを行う
-      encodedUser = URI.encode_www_form_component(thisUser)
       # 完全なURLを作成
-      url = "https://apiv2.twitcasting.tv/users/#{encodedUser}/current_live"
+      host = "https://apiv2.twitcasting.tv/users/"
+
+      prefix = "/current_live"
+
+      url = URI.join(host, thisUser, prefix).to_s
 
       puts "🍨 226 url: #{url}"
-      
+
       response = HTTParty.get(
         url,
         headers: {
@@ -228,7 +230,7 @@ class DonutController < ApplicationController
       )
 
       puts "🌮 233 ユーザーID: #{thisUser}"
-      puts "🍌 234 response: #{response}"
+      # puts "🍌 234 response: #{response}"
 
       if response.success?
         data = response.parsed_response
