@@ -309,8 +309,11 @@ class DonutController < ApplicationController
         puts "🍔 248 popular: #{category['popular']}"
         category['popular'].each do |live|
           user_id = live['user']['id']
+          user_id = user_id.to_s
           puts "🍔 248 user_id: #{user_id}"
-          result = w_uids.find { |id| id == user_id }
+ 
+          result = w_uids.include?(user_id)
+          # result = w_uids.find { |id| id == user_id }
           puts "🍙 248 ユーザーIDs: #{w_uids}"
           puts "🍙 248 ユーザーIDs: #{user_id}"
           puts "🍙 248 result: #{result}"
