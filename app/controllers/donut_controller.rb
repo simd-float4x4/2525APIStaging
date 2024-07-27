@@ -242,21 +242,21 @@ class DonutController < ApplicationController
           puts "👀　225：データの取得を開始しました(ツイキャス)"
           # data.each do | user |
           # next if user.nil?
-          user_url = data['movie'].link
+          user_url = data['movie']['link']
 
           # data['broadcaster'].each do |info|
-            user_id = data['id']
+            user_id = data['broadcaster']['id']
             result = twc_ups.find { |id| id == user_id }
 
             if result
               twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
-              puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{data['name']}"
+              puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{data['broadcaster']['name']}"
 
-              twc.isBroadCasting = data['is_live']
-              twc.accountUserName = data['name']
-              twc.accountUserSubText = data['screen_id']
+              twc.isBroadCasting = data['broadcaster']['is_live']
+              twc.accountUserName = data['broadcaster']['name']
+              twc.accountUserSubText = data['broadcaster']['screen_id']
               twc.accountUserUrl = user_url
-              twc.accountIconImageUrl = data['image']
+              twc.accountIconImageUrl = data['broadcaster']['image']
               twc.save
   
               payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
