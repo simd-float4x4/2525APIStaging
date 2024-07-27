@@ -232,7 +232,6 @@ class DonutController < ApplicationController
       puts "🥮 226 url: #{url}"
       puts "#{ENV['TWITCASTING_TOKEN']}"
 
-      puts "🌮 233 ユーザーID: #{thisUser}"
       puts "🍌 234 response: #{response}"
       puts "🍌 234 response: #{response.success?}"
 
