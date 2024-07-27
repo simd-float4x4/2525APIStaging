@@ -248,9 +248,10 @@ class DonutController < ApplicationController
 
           # data['broadcaster'].each do |info|
             user_id = data['broadcaster']['id']
+            user_n = data['broadcaster']['screen_id']
             puts "⭐️ 251 user_id: #{user_id}"
 
-            result = twc_uids.find { |id| id == user_id }
+            result = twc_uids.find { |id| id == user_n }
             puts "⭐️ 254 result: #{result}"
 
             if result
