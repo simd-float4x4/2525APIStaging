@@ -236,33 +236,34 @@ class DonutController < ApplicationController
 
         puts "🍌 234 response: #{response}"
         puts "🍌 234 response: #{response.success?}"
+        puts "🍌 239 data: #{data}"
       
         if data
           puts "👀　225：データの取得を開始しました(ツイキャス)"
-          data.each do | user |
-            next if user.nil?
-            user_url = user['movie'].link
+          # data.each do | user |
+          # next if user.nil?
+          user_url = data['movie'].link
 
-            user['broadcaster'].each do |info|
-              user_id = info['id']
-              result = twc_ups.find { |id| id == user_id }
+          # data['broadcaster'].each do |info|
+            user_id = data['id']
+            result = twc_ups.find { |id| id == user_id }
 
-              if result
-                twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
-                puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{info['name']}"
+            if result
+              twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
+              puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{data['name']}"
 
-                twc.isBroadCasting = info['is_live']
-                twc.accountUserName = info['name']
-                twc.accountUserSubText = info['screen_id']
-                twc.accountUserUrl = user_url
-                twc.accountIconImageUrl = info['image']
-                twc.save
-    
-                payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
-                HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
-              end
+              twc.isBroadCasting = data['is_live']
+              twc.accountUserName = data['name']
+              twc.accountUserSubText = data['screen_id']
+              twc.accountUserUrl = user_url
+              twc.accountIconImageUrl = data['image']
+              twc.save
+  
+              payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
+              HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
             end
-          end
+          # end
+          # end
           puts "👀　246：ツイキャスのスキャニングが完了しました"
         else
           puts "🚨 Whowatch Error: Failed to Fetch Data"
