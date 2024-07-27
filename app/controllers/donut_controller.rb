@@ -309,7 +309,7 @@ class DonutController < ApplicationController
         category['popular'].each do |live|
           user_id = live['user']['id']
           puts "🍔 248 user_id: #{user_id}"
-          result = w_ups.find { |id| id == user_id }
+          result = w_uids.find { |id| id == user_id }
           puts "🍔 248 result: #{result}"
           if result
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
