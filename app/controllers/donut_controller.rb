@@ -299,6 +299,7 @@ class DonutController < ApplicationController
     end
 
     puts "🍔 248 ユーザーIDs: #{w_uids}"
+    puts "🍔 248 ユーザーIDs: #{w_ups}"
     puts "🍔 248 data: #{data}"
 
     if data
@@ -310,7 +311,9 @@ class DonutController < ApplicationController
           user_id = live['user']['id']
           puts "🍔 248 user_id: #{user_id}"
           result = w_uids.find { |id| id == user_id }
-          puts "🍔 248 result: #{result}"
+          puts "🍙 248 ユーザーIDs: #{w_uids}"
+          puts "🍙 248 ユーザーIDs: #{user_id}"
+          puts "🍙 248 result: #{result}"
           if result
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
             puts "🍩 272 User Found!（whowatch）: #{user_id}, #{live['user']['name']}"
