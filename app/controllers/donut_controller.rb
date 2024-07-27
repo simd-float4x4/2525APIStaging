@@ -314,10 +314,9 @@ class DonutController < ApplicationController
  
           result = w_uids.include?(user_id)
           # result = w_uids.find { |id| id == user_id }
-          puts "🍙 248 ユーザーIDs: #{w_uids}"
-          puts "🍙 248 ユーザーIDs: #{user_id}"
-          puts "🍙 248 result: #{result}"
+
           if result
+            puts "🍙 248 result: #{result}"
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
             puts "🍩 272 User Found!（whowatch）: #{user_id}, #{live['user']['name']}"
             w.isBroadCasting = true
