@@ -230,13 +230,12 @@ class DonutController < ApplicationController
       )
 
       puts "🥮 226 url: #{url}"
-      puts "#{ENV['TWITCASTING_TOKEN']}"
-
-      puts "🍌 234 response: #{response}"
-      puts "🍌 234 response: #{response.success?}"
 
       if response.success?
-        data = response
+        data = response.parsed_response
+
+        puts "🍌 234 response: #{response}"
+        puts "🍌 234 response: #{response.success?}"
       
         if data
           puts "👀　225：データの取得を開始しました(ツイキャス)"
