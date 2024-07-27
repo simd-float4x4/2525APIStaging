@@ -246,7 +246,7 @@ class DonutController < ApplicationController
 
           # data['broadcaster'].each do |info|
             user_id = data['broadcaster']['id']
-            result = twc_ups.find { |id| id == user_id }
+            result = twc_uids.find { |id| id == user_id }
 
             if result
               twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
