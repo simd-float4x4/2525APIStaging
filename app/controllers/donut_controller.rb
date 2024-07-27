@@ -272,13 +272,12 @@ class DonutController < ApplicationController
           # end
           puts "👀　246：ツイキャスのスキャニングが完了しました"
         else
-          puts "🚨 Whowatch Error: Failed to Fetch Data"
+          puts "🚨 Twitcasting: data is nil"
         end
-
       else
-        puts "🚨 Twitcasting Error: Failed to Fetch Data"
-        payload = { text: "<!channel> Error: #{response.code} - #{response.message}" }.to_json
-        HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+        # puts "🚨 Twitcasting Error: Failed to Fetch Data"
+        # payload = { text: "<!channel> Error: #{response.code} - #{response.message}" }.to_json
+        # HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
       end
     end
   end
@@ -300,14 +299,18 @@ class DonutController < ApplicationController
     end
 
     puts "🍔 248 ユーザーIDs: #{w_uids}"
+    puts "🍔 248 data: #{data}"
 
     if data
       puts "👀　242：データの取得を開始しました(whowatch)"
       data.each do |category|
         next if category.nil?
+        puts "🍔 248 popular: #{category['popular']}"
         category['popular'].each do |live|
           user_id = live['user']['id']
+          puts "🍔 248 user_id: #{user_id}"
           result = w_ups.find { |id| id == user_id }
+          puts "🍔 248 result: #{result}"
           if result
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
             puts "🍩 272 User Found!（whowatch）: #{user_id}, #{live['user']['name']}"
