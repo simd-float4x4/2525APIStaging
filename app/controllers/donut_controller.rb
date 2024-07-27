@@ -242,15 +242,20 @@ class DonutController < ApplicationController
           puts "👀　225：データの取得を開始しました(ツイキャス)"
           # data.each do | user |
           # next if user.nil?
+          puts "⭐️ 245 data: #{data}"
           user_url = data['movie']['link']
+          puts "⭐️ 247 user_url: #{user_url}"
 
           # data['broadcaster'].each do |info|
             user_id = data['broadcaster']['id']
+            puts "⭐️ 251 user_id: #{user_id}"
+
             result = twc_uids.find { |id| id == user_id }
+            puts "⭐️ 254 result: #{result}"
 
             if result
-              twc = UserPlatform.where(platformId: 2).find_by(accountUserId: user_id)
-              puts "🍰 234 User Found!（ツイキャス）: #{user_id}, #{data['broadcaster']['name']}"
+              twc = UserPlatform.where(platformId: 2).find_by(accountUserSubText: item)
+              puts "🍰 258 User Found!（ツイキャス）: #{user_id}, #{data['broadcaster']['name']}"
 
               twc.isBroadCasting = data['broadcaster']['is_live']
               twc.accountUserName = data['broadcaster']['name']
