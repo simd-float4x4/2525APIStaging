@@ -51,7 +51,8 @@ class DonutController < ApplicationController
     end
 
     def user_list
-        users = User.includes(:user_meta_names, :user_platforms)
+        # users = User.includes(:user_meta_names, :user_platforms)
+        users = User.preload(:user_meta_names, :user_platforms)
     
         shuffled_users =  users.shuffle
         prefix = '@'
