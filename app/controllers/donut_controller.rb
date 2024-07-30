@@ -209,17 +209,17 @@ class DonutController < ApplicationController
       twc_uids << tw.accountUserSubText
     end
 
-    puts "🍨 222 ユーザーID: #{twc_uids}"
+    # puts "🍨 222 ユーザーID: #{twc_uids}"
     
     twc_uids.each_with_index do |item, i|
       # 完全なURLを作成
       host = "https://apiv2.twitcasting.tv/users/"
-      puts "🥮 218 url.class: #{item}"
+      # puts "🥮 218 url.class: #{item}"
       prefix = "/current_live"
 
       joined_url = host + item + prefix
       url = URI.join(joined_url).to_s
-      puts "🥮 218 url.class: #{url.class}"
+      # puts "🥮 218 url.class: #{url.class}"
 
       # 50件以上だったらAPIの上限の関係上一分間眠らせる
       if i % 60 == 50
@@ -236,30 +236,30 @@ class DonutController < ApplicationController
         }
       )
 
-      puts "🥮 226 url: #{url}"
+      # puts "🥮 226 url: #{url}"
 
       if response.success?
         data = response.parsed_response
 
-        puts "🍌 234 response: #{response}"
-        puts "🍌 234 response: #{response.success?}"
-        puts "🍌 239 data: #{data}"
+        # puts "🍌 234 response: #{response}"
+        # puts "🍌 234 response: #{response.success?}"
+        # puts "🍌 239 data: #{data}"
       
         if data
           puts "👀　225：データの取得を開始しました(ツイキャス)"
           # data.each do | user |
           # next if user.nil?
-          puts "⭐️ 245 data: #{data}"
+          # puts "⭐️ 245 data: #{data}"
           user_url = data['movie']['link']
-          puts "⭐️ 247 user_url: #{user_url}"
+          # puts "⭐️ 247 user_url: #{user_url}"
 
           # data['broadcaster'].each do |info|
             user_id = data['broadcaster']['id']
             user_n = data['broadcaster']['screen_id']
-            puts "⭐️ 251 user_id: #{user_id}"
+            # puts "⭐️ 251 user_id: #{user_id}"
 
             result = twc_uids.find { |id| id == user_n }
-            puts "⭐️ 254 result: #{result}"
+            # puts "⭐️ 254 result: #{result}"
 
             if result
               twc = UserPlatform.where(platformId: 2).find_by(accountUserSubText: item)
@@ -305,15 +305,15 @@ class DonutController < ApplicationController
       w_uids << wu.accountUserId
     end
 
-    puts "🍔 248 ユーザーIDs: #{w_uids}"
-    puts "🍔 248 ユーザーIDs: #{w_ups}"
-    puts "🍔 248 data: #{data}"
+    # puts "🍔 248 ユーザーIDs: #{w_uids}"
+    # puts "🍔 248 ユーザーIDs: #{w_ups}"
+    # puts "🍔 248 data: #{data}"
 
     if data
       puts "👀　242：データの取得を開始しました(whowatch)"
       data.each do |category|
         next if category.nil?
-        puts "🍔 248 popular: #{category['popular']}"
+        # puts "🍔 248 popular: #{category['popular']}"
         category['popular'].each do |live|
           user_id = live['user']['id']
           user_id = user_id.to_s
@@ -323,7 +323,7 @@ class DonutController < ApplicationController
           # result = w_uids.find { |id| id == user_id }
 
           if result
-            puts "🍙 248 result: #{result}"
+            # puts "🍙 248 result: #{result}"
             w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
             puts "🍩 272 User Found!（whowatch）: #{user_id}, #{live['user']['name']}"
             w.isBroadCasting = true
