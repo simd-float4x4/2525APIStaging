@@ -221,6 +221,12 @@ class DonutController < ApplicationController
       url = URI.join(joined_url).to_s
       puts "🥮 218 url.class: #{url.class}"
 
+      # 50件以上だったらAPIの上限の関係上一分間眠らせる
+      if i % 60 == 50
+        puts "👈 check!：Twitch API Resting is called"
+        sleep(60) 
+      end
+
       response = HTTParty.get(
         url,
         headers: {
@@ -311,7 +317,7 @@ class DonutController < ApplicationController
         category['popular'].each do |live|
           user_id = live['user']['id']
           user_id = user_id.to_s
-          puts "🍔 248 user_id: #{user_id}"
+          # puts "🍔 248 user_id: #{user_id}"
  
           result = w_uids.include?(user_id)
           # result = w_uids.find { |id| id == user_id }
