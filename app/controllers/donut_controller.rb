@@ -206,6 +206,8 @@ class DonutController < ApplicationController
     twc_ups = UserPlatform.where(platformId: 2)
 
     twc_ups.each do | tw |
+      tw.isBroadCasting = false
+      tw.save
       twc_uids << tw.accountUserSubText
     end
 
@@ -303,6 +305,8 @@ class DonutController < ApplicationController
 
     w_ups.each do | wu |
       w_uids << wu.accountUserId
+      wu.isBroadCasting = false
+      wu.save
     end
 
     # puts "🍔 248 ユーザーIDs: #{w_uids}"
