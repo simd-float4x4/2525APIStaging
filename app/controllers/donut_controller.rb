@@ -202,6 +202,7 @@ class DonutController < ApplicationController
     payload = { text: "【ツイキャス】====" }.to_json
     HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
 
+    puts "👀　225：データの取得を開始しました(ツイキャス)"
     twc_uids = []
     twc_ups = UserPlatform.where(platformId: 2)
 
@@ -248,7 +249,6 @@ class DonutController < ApplicationController
         # puts "🍌 239 data: #{data}"
       
         if data
-          puts "👀　225：データの取得を開始しました(ツイキャス)"
           # data.each do | user |
           # next if user.nil?
           # puts "⭐️ 245 data: #{data}"
@@ -279,7 +279,6 @@ class DonutController < ApplicationController
             end
           # end
           # end
-          puts "👀　246：ツイキャスのスキャニングが完了しました"
         else
           puts "🚨 Twitcasting: data is nil"
         end
@@ -289,6 +288,7 @@ class DonutController < ApplicationController
         # HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
       end
     end
+    puts "👀　246：ツイキャスのスキャニングが完了しました"
   end
 
   def whowatch
