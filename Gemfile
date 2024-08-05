@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "3.3.4"
 
+gem "sassc", "< 2.2.0"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.4"
 
@@ -45,11 +47,11 @@ gem 'activerecord-session_store'
 
 gem 'localhost'
 
-gem 'bundler', '2.5.15'
+gem 'bundler'
 
+gem 'sassc-rails'
 gem 'bootstrap', '~> 5.3.0'
 gem 'jquery-rails'
-gem "sassc-rails"
 
 gem 'kaminari', '~> 0.17.0'
 gem 'bootstrap4-kaminari-views'
