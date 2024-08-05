@@ -192,10 +192,13 @@
   end
 
   def niconico
+    puts "👀　195：データの取得を開始しました(niconico)"
     agent = Mechanize.new
     page_qiita = agent.get("https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information")
+    puts page_qiita
     qiita = page_qiita.search('___status___s_bJI status')
     puts qiita
+    puts "👀　200：データの取得を開始しました(niconico)"
   end
 
   def startFetchNotice
