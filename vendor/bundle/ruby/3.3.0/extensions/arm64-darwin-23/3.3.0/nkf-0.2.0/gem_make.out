@@ -1,0 +1,18 @@
+current directory: /Users/asobu_dev/MySystem/2BA/vendor/bundle/ruby/3.3.0/gems/nkf-0.2.0/ext/nkf
+/Users/asobu_dev/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/asobu_dev/MySystem/2BA/vendor/bundle/ruby/3.3.0/gems/nkf-0.2.0/ext/nkf
+make DESTDIR\= sitearchdir\=./.gem.20240805-89294-2jm12e sitelibdir\=./.gem.20240805-89294-2jm12e clean
+
+current directory: /Users/asobu_dev/MySystem/2BA/vendor/bundle/ruby/3.3.0/gems/nkf-0.2.0/ext/nkf
+make DESTDIR\= sitearchdir\=./.gem.20240805-89294-2jm12e sitelibdir\=./.gem.20240805-89294-2jm12e
+compiling nkf.c
+linking shared-object nkf.bundle
+
+current directory: /Users/asobu_dev/MySystem/2BA/vendor/bundle/ruby/3.3.0/gems/nkf-0.2.0/ext/nkf
+make DESTDIR\= sitearchdir\=./.gem.20240805-89294-2jm12e sitelibdir\=./.gem.20240805-89294-2jm12e install
+/usr/bin/install -c -m 0755 nkf.bundle ./.gem.20240805-89294-2jm12e
+
+current directory: /Users/asobu_dev/MySystem/2BA/vendor/bundle/ruby/3.3.0/gems/nkf-0.2.0/ext/nkf
+make DESTDIR\= sitearchdir\=./.gem.20240805-89294-2jm12e sitelibdir\=./.gem.20240805-89294-2jm12e clean
