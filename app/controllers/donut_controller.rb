@@ -201,11 +201,11 @@
       puts qi
       puts qi.inner_text
     end
-    puts qiita
-    puts qiita.first
+    puts @qiita
+    puts @qiita.first
     @qita = page_qiita.at('.___status___s_bJI.status')
-    puts qita
-    puts qita.inner_text
+    puts @qita
+    puts @qita.inner_text
     puts "👀　200：データの取得を終了しました(niconico)"
   end
 
