@@ -8,3 +8,5 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
           expose: ['Access-Control-Allow-Origin', 'X-Custom-Header']
     end
 end
+
+#死ね
