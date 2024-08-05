@@ -47,9 +47,9 @@ gem 'localhost'
 
 gem 'bundler', '2.5.15'
 
-gem 'bootstrap', '~> 5.3.0'
-gem 'jquery-rails'
-gem "sassc-rails"
+# gem 'bootstrap', '~> 5.3.0'
+# gem 'jquery-rails'
+# gem "sassc-rails"
 
 gem 'kaminari', '~> 0.17.0'
 gem 'bootstrap4-kaminari-views'
@@ -59,6 +59,8 @@ gem 'rack-cors'
 gem 'httparty'
 
 gem 'parallel'
+
+gem 'mechanize'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

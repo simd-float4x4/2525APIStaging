@@ -1,4 +1,4 @@
-class DonutController < ApplicationController
+  class DonutController < ApplicationController
     require 'httparty'
     require 'json'
     require 'net/http'
@@ -51,7 +51,8 @@ class DonutController < ApplicationController
     end
 
     def user_list
-        users = User.includes(:user_meta_names, :user_platforms)
+        # users = User.includes(:user_meta_names, :user_platforms)
+        users = User.preload(:user_meta_names, :user_platforms)
     
         shuffled_users =  users.shuffle
         prefix = '@'
@@ -177,26 +178,198 @@ class DonutController < ApplicationController
         
       }
     end
-
     pretty_json = JSON.pretty_generate(version_data)
     render plain: pretty_json
   end
 
   def fetchAPI
-    # Twitch API
+    self.startFetchNotice
+    self.twitch
+    self.whowatch
+    self.twitcasting
+    self.niconico
+    redirect_to request.referer
+  end
+
+  def niconico
+    agent = Mechanize.new
+    page_qiita = agent.get("https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information")
+    qiita = page_qiita.search('___status___s_bJI status')
+    puts qiita
+  end
+
+  def startFetchNotice
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    current_time = Time.zone.now
+    payload = { text: "#{current_time.strftime("%H:%M:%S　")}" + "データの取得を開始します" }.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+  end
+
+  def twitcasting
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    payload = { text: "【ツイキャス】====" }.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+
+    puts "👀　225：データの取得を開始しました(ツイキャス)"
+    twc_uids = []
+    twc_ups = UserPlatform.where(platformId: 2)
+
+    twc_ups.each do | tw |
+      tw.isBroadCasting = false
+      tw.save
+      twc_uids << tw.accountUserSubText
+    end
+
+    # puts "🍨 222 ユーザーID: #{twc_uids}"
+    
+    twc_uids.each_with_index do |item, i|
+      # 完全なURLを作成
+      host = "https://apiv2.twitcasting.tv/users/"
+      # puts "🥮 218 url.class: #{item}"
+      prefix = "/current_live"
+
+      joined_url = host + item + prefix
+      url = URI.join(joined_url).to_s
+      # puts "🥮 218 url.class: #{url.class}"
+
+      # 50件以上だったらAPIの上限の関係上一分間眠らせる
+      if i % 60 == 50
+        puts "👈 check!：Twitch API Resting is called"
+        sleep(60) 
+      end
+
+      response = HTTParty.get(
+        url,
+        headers: {
+          "Accept" => "application/json",
+          "X-Api-Version" => "2.0",
+          "Authorization" => "#{ENV['TWITCASTING_TOKEN']}"
+        }
+      )
+
+      # puts "🥮 226 url: #{url}"
+
+      if response.success?
+        data = response.parsed_response
+
+        # puts "🍌 234 response: #{response}"
+        # puts "🍌 234 response: #{response.success?}"
+        # puts "🍌 239 data: #{data}"
+      
+        if data
+          # data.each do | user |
+          # next if user.nil?
+          # puts "⭐️ 245 data: #{data}"
+          user_url = data['movie']['link']
+          # puts "⭐️ 247 user_url: #{user_url}"
+
+          # data['broadcaster'].each do |info|
+            user_id = data['broadcaster']['id']
+            user_n = data['broadcaster']['screen_id']
+            # puts "⭐️ 251 user_id: #{user_id}"
+
+            result = twc_uids.find { |id| id == user_n }
+            # puts "⭐️ 254 result: #{result}"
+
+            if result
+              twc = UserPlatform.where(platformId: 2).find_by(accountUserSubText: item)
+              puts "🍰 258 User Found!（ツイキャス）: #{user_id}, #{data['broadcaster']['name']}"
+
+              twc.isBroadCasting = data['broadcaster']['is_live']
+              twc.accountUserName = data['broadcaster']['name']
+              twc.accountUserSubText = data['broadcaster']['screen_id']
+              twc.accountUserUrl = user_url
+              twc.accountIconImageUrl = data['broadcaster']['image']
+              twc.save
+
+              payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
+              HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+            end
+          # end
+          # end
+        else
+          puts "🚨 Twitcasting: data is nil"
+        end
+      else
+        # puts "🚨 Twitcasting Error: Failed to Fetch Data"
+        # payload = { text: "<!channel> Error: #{response.code} - #{response.message}" }.to_json
+        # HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+      end
+    end
+    puts "👀　246：ツイキャスのスキャニングが完了しました"
+  end
+
+  def whowatch
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
+    payload = { text: "【ふわっち】===="}.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+
+    uri = URI.parse('https://api.whowatch.tv/lives')
+    response = Net::HTTP.get(uri)
+    data = JSON.parse(response)
+
+    w_uids = []
+    w_ups = UserPlatform.where(platformId: 3)
+
+    w_ups.each do | wu |
+      w_uids << wu.accountUserId
+      wu.isBroadCasting = false
+      wu.save
+    end
+
+    # puts "🍔 248 ユーザーIDs: #{w_uids}"
+    # puts "🍔 248 ユーザーIDs: #{w_ups}"
+    # puts "🍔 248 data: #{data}"
+
+    if data
+      puts "👀　242：データの取得を開始しました(whowatch)"
+      data.each do |category|
+        next if category.nil?
+        # puts "🍔 248 popular: #{category['popular']}"
+        category['popular'].each do |live|
+          user_id = live['user']['id']
+          user_id = user_id.to_s
+          # puts "🍔 248 user_id: #{user_id}"
+
+          result = w_uids.include?(user_id)
+          # result = w_uids.find { |id| id == user_id }
+
+          if result
+            # puts "🍙 248 result: #{result}"
+            w = UserPlatform.where(platformId: 3).find_by(accountUserId: user_id)
+            puts "🍩 272 User Found!（whowatch）: #{user_id}, #{live['user']['name']}"
+            w.isBroadCasting = true
+            w.accountUserName = live['user']['name']
+            w.accountUserSubText = live['user']['user_path']
+            w.accountUserUrl = 'https://whowatch.tv/viewer/' + live['id'].to_s
+            w.accountIconImageUrl = live['user']['icon_url']
+            w.save
+
+            payload = { text: "・" + w.accountUserName + "さんが配信しています" }.to_json
+            HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+          end
+        end
+      end
+      puts "👀　258：ふわっちのスキャニングが完了しました"
+    else
+      puts "🚨 Whowatch Error: Failed to Fetch Data"
+    end
+  end
+
+  def twitch
+    puts "👀　310：データの取得を開始しました(twitch)"
+    webhook_url = ENV['SLACK_WEBHOOK_URL']
+
+    payload = { text: "【Twitch】===="}.to_json
+    HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
+
     @client = Twitch::Client.new(
       client_id: ENV['TWITCH_CLIENT_ID'], 
       access_token: ENV['TWITCH_ACCESS_TOKEN']
     )
 
-    webhook_url = ENV['SLACK_WEBHOOK_URL']
-
     if @client == nil 
       payload = { text: ENV['SLACK_NOTIFICATION_BODY'] }.to_json
-      HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
-    else
-      current_time = Time.zone.now
-      payload = { text: "#{current_time.strftime("%H:%M:%S　")}" + "（Twitch）データの取得を開始します" }.to_json
       HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
     end
 
@@ -229,59 +402,7 @@ class DonutController < ApplicationController
         end
       end
     end
-    self.whowatch
-    redirect_to request.referer
-  end
-
-  def whowatch
-    uri = URI.parse('https://api.whowatch.tv/lives')
-    puts "254 response: #{uri}"
-    response = Net::HTTP.get(uri)
-    puts "256 response: #{response}"
-    data = JSON.parse(response)
-    # 返ってくる値にデータがあるなら配信中という認識でOK
-    puts "257 newdata: #{data}"
-
-    if data
-      puts "258 newdata: #{data}"
-      data.each do |category|
-        next if category.nil?
-        puts "260 newdata: #{data}"
-        puts "261 category: #{category}"
-
-        category[:new].each do |live|
-          puts "263 id: #{live[:user][:id]}"
-        end
-      end
-    else
-      puts "data is nil"
-    end
-
-    # data.each do |category|
-    #   puts "258 newdata: #{data}"
-    #   category['popular'].each do |newdata|
-    #     puts "260 newdata: #{newdata}"
-    #     new_id = newdata['id']
-    #     puts "262 newId: #{new_id}"
-    #     user = newdata['user']
-    #     puts "264 user: #{user}"
-    #     user_id = user['id']
-    #     puts "266 user_id: #{user_id}"
-
-    #     if UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-    #       w = UserPlatform.where(platformId: 3).find_by(accountUserId: user['id'])
-    #       puts w
-    #       puts "272 User ID: #{user['id']}"
-    #       w.isBroadCasting = true
-    #       w.accountUserName = user['name']
-    #       puts "275 User Name: #{user['name']}"
-    #       w.accountUserSubText = user['user_path']
-    #       w.accountUserUrl = 'https://whowatch.tv/viewer/' + new_id
-    #       w.accountIconImageUrl = user['icon_url']
-    #       w.save
-    #     end
-    #   end
-    # end
+    puts "👀　355：twitchのスキャニングが完了しました"
   end
 
   private
