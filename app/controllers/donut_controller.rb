@@ -1,4 +1,4 @@
-class DonutController < ApplicationController
+  class DonutController < ApplicationController
     require 'httparty'
     require 'json'
     require 'net/http'
@@ -187,7 +187,15 @@ class DonutController < ApplicationController
     self.twitch
     self.whowatch
     self.twitcasting
+    self.niconico
     redirect_to request.referer
+  end
+
+  def niconico
+    agent = Mechanize.new
+    page_qiita = agent.get("https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information")
+    qiita = page_qiita.search('___status___s_bJI status')
+    puts qiita
   end
 
   def startFetchNotice
@@ -273,7 +281,6 @@ class DonutController < ApplicationController
               twc.accountUserUrl = user_url
               twc.accountIconImageUrl = data['broadcaster']['image']
               twc.save
-  
               payload = { text: "・" + twc.accountUserName + "さんが配信しています" }.to_json
               HTTParty.post(webhook_url, body: payload, headers: { 'Content-Type' => 'application/json' })
             end
@@ -322,7 +329,6 @@ class DonutController < ApplicationController
           user_id = live['user']['id']
           user_id = user_id.to_s
           # puts "🍔 248 user_id: #{user_id}"
- 
           result = w_uids.include?(user_id)
           # result = w_uids.find { |id| id == user_id }
 
