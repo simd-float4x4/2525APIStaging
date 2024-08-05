@@ -196,14 +196,16 @@
     agent = Mechanize.new
     page_qiita = agent.get("https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information")
     puts page_qiita
-    @qiita = page_qiita.search('.___status___s_bJI')
+    @qiita = page_qiita.search('.___status___s_bJI.status')
     @qiita.each do | qi |
       puts qi
       puts qi.inner_text
     end
     puts qiita
     puts qiita.first
-    puts "👀　200：データの取得を開始しました(niconico)"
+    @qita = page_qiita.at('.___status___s_bJI.status')
+    puts qita
+    puts "👀　200：データの取得を終了しました(niconico)"
   end
 
   def startFetchNotice
