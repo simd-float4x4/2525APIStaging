@@ -199,6 +199,7 @@
     @qiita = page_qiita.search('.___status___s_bJI')
     @qiita.each do | qi |
       puts qi
+      puts qi.inner_text
     end
     puts qiita
     puts qiita.first
