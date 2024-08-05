@@ -196,7 +196,10 @@
     agent = Mechanize.new
     page_qiita = agent.get("https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information")
     puts page_qiita
-    qiita = page_qiita.search('.___state___Qnj_H .state')
+    @qiita = page_qiita.search('.___status___s_bJI')
+    @qiita.each do | qi |
+      puts qi
+    end
     puts qiita
     puts qiita.first
     puts "👀　200：データの取得を開始しました(niconico)"
