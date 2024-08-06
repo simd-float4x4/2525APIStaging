@@ -197,7 +197,7 @@
     pag = agent.get('https://www.nicovideo.jp/user/117330421/live_programs?ref=pc_userpage_menu')
 
     #pag = agent.get('https://live.nicovideo.jp/embed/broadcast-history?userId=117330421&ref=watch_user_information')
-    puts(".GuestIFrameContainer iframe")
+    puts pag.at(".LivePage .LivePage-content .LiveContainer .GuestIFrameContainer iframe")
 
     puts("pag")
     puts pag
