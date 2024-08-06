@@ -194,8 +194,8 @@
   def niconico
     puts "👀　195：データの取得を開始しました(niconico)"
 
-    response = HTTParty.post(
-      'secure.nicovideo.jp/secure/login',
+    n_response = HTTParty.post(
+      'https://secure.nicovideo.jp/secure/login',
       headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
       body: {
         site: 'nicolive',
@@ -204,10 +204,8 @@
       }
     )
 
-puts response.body
-
     puts "MERRY JANE:"
-    puts response
+    puts n_response.body
 
     agent = Mechanize.new
     pag = agent.get('https://live.nicovideo.jp/embed/broadcast-history?userId=117330421&ref=pc_userpage_menu')
