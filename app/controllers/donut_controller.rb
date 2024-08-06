@@ -194,18 +194,19 @@
   def niconico
     puts "👀　195：データの取得を開始しました(niconico)"
     agent = Mechanize.new
-    page_qiita = agent.get("https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information")
-    puts page_qiita
-    
-    puts page_qiita.at(".user-program-broadcast-history-list-section")
-    puts page_qiita.at(".item")
-    puts page_qiita.at(".program-broadcast-history")
-    puts page_qiita.at(".program-card")
-    puts page_qiita.at(".program-preview")
-    puts page_qiita.at(".state")
-    puts page_qiita.at(".status")
+    page = agent.get('https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information')
+    puts page.inner_text
+    puts page.at("#root")
+    puts page.at(".ga-ns-broadcast-history-page")
+    puts page.at(".user-program-broadcast-history-list-section")
+    puts page.at(".item")
+    puts page.at(".program-broadcast-history")
+    puts page.at(".program-card")
+    puts page.at(".program-preview")
+    puts page.at(".state")
+    puts page.at(".status")
 
-    @qita = page_qiita.at(".user-program-broadcast-history-list-section .program-card-list .item .program-broadcast-history .program-card .program-preview .state .status")
+    @qita = page.at("#root .ga-ns-broadcast-history-page .user-program-broadcast-history-list-section .program-card-list .item .program-broadcast-history .program-card .program-preview .state .status")
     puts @qita
     puts @qita.inner_text
     puts "👀　200：データの取得を終了しました(niconico)"
