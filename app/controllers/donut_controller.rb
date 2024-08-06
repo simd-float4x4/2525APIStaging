@@ -193,8 +193,25 @@
 
   def niconico
     puts "👀　195：データの取得を開始しました(niconico)"
+
+    response = HTTParty.post(
+      "secure.nicovideo.jp/secure/login",
+      headers: {
+        "Content-Type" => "application/x-www-form-urlencoded",
+        "site" => "nicolive",
+        "mail" => "kusunoki.e.cio@gmail.com",
+        "password" => "kXa5TLJ14yvg"
+        # "Accept" => "application/json",
+        # "X-Api-Version" => "2.0",
+        # "Authorization" => "#{ENV['TWITCASTING_TOKEN']}"
+      }
+    )
+
+    puts "MERRY JANE:"
+    puts response
+
     agent = Mechanize.new
-    pag = agent.get('https://www.nicovideo.jp/user/117330421/live_programs?ref=pc_userpage_menu')
+    pag = agent.get('https://live.nicovideo.jp/embed/broadcast-history?userId=117330421&ref=pc_userpage_menu')
 
     #pag = agent.get('https://live.nicovideo.jp/embed/broadcast-history?userId=117330421&ref=watch_user_information')
     puts pag.at(".LivePage .LivePage-content .LiveContainer .GuestIFrameContainer iframe")
