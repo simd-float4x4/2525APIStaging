@@ -209,9 +209,9 @@
 
     puts("page")
     page = agent.get('https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information')
-    puts page
-    puts page.at("#root")
-    puts page.at(".ga-ns-broadcast-history-page")
+    puts page.inner_text
+    puts page.search("#root")
+    puts page.search(".ga-ns-broadcast-history-page")
     puts page.at(".user-program-broadcast-history-list-section")
     puts page.at(".item")
     puts page.at(".program-broadcast-history")
