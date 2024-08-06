@@ -196,11 +196,16 @@
 
     n_response = HTTParty.post(
       'https://secure.nicovideo.jp/secure/login',
-      headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
+      headers: { 
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
+      },
       body: {
-        site: 'nicolive',
         mail: "kusunoki.e.cio@gmail.com",
         password: "kXa5TLJ14yvg"
+      },
+      query: {
+        site: 'nicolive'
       }
     )
 
