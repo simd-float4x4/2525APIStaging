@@ -195,14 +195,14 @@
     puts "👀　195：データの取得を開始しました(niconico)"
 
     response = HTTParty.post(
-      "secure.nicovideo.jp/secure/login",
+      "https://secure.nicovideo.jp/secure/login",
       headers: {
         "Content-Type" => "application/x-www-form-urlencoded",
         "site" => "nicolive",
         "mail" => "kusunoki.e.cio@gmail.com",
         "password" => "kXa5TLJ14yvg"
-        # "Accept" => "application/json",
-        # "X-Api-Version" => "2.0",
+        "Accept" => "application/json",
+        "X-Api-Version" => "2.0",
         # "Authorization" => "#{ENV['TWITCASTING_TOKEN']}"
       }
     )
