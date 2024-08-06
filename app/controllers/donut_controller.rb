@@ -194,8 +194,22 @@
   def niconico
     puts "👀　195：データの取得を開始しました(niconico)"
     agent = Mechanize.new
+    pag = agent.get('https://live.nicovideo.jp/embed/broadcast-history?userId=117330421&ref=watch_user_information')
+    puts("pag")
+    uts pag
+    puts pag.at("#root")
+    puts pag.at(".ga-ns-broadcast-history-pag")
+    puts pag.at(".user-program-broadcast-history-list-section")
+    puts pag.at(".item")
+    puts pag.at(".program-broadcast-history")
+    puts pag.at(".program-card")
+    puts pag.at(".program-preview")
+    puts pag.at(".state")
+    puts pag.at(".status")
+
+    puts("page")
     page = agent.get('https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information')
-    puts page.inner_text
+    puts page
     puts page.at("#root")
     puts page.at(".ga-ns-broadcast-history-page")
     puts page.at(".user-program-broadcast-history-list-section")
