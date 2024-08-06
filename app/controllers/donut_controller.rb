@@ -196,7 +196,7 @@
     agent = Mechanize.new
     pag = agent.get('https://live.nicovideo.jp/embed/broadcast-history?userId=117330421&ref=watch_user_information')
     puts("pag")
-    uts pag
+    puts pag
     puts pag.at("#root")
     puts pag.at(".ga-ns-broadcast-history-pag")
     puts pag.at(".user-program-broadcast-history-list-section")
