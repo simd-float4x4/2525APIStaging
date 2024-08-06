@@ -196,8 +196,16 @@
     agent = Mechanize.new
     page_qiita = agent.get("https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information")
     puts page_qiita
+    
+    puts page_qiita.at(".user-program-broadcast-history-list-section")
+    puts page_qiita.at(".item")
+    puts page_qiita.at(".program-broadcast-history")
+    puts page_qiita.at(".program-card")
+    puts page_qiita.at(".program-preview")
+    puts page_qiita.at(".state")
+    puts page_qiita.at(".status")
 
-    @qita = page_qiita.at('.___status___s_bJI')
+    @qita = page_qiita.at(".user-program-broadcast-history-list-section .program-card-list .item .program-broadcast-history .program-card .program-preview .state .status")
     puts @qita
     puts @qita.inner_text
     puts "👀　200：データの取得を終了しました(niconico)"
