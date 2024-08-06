@@ -194,35 +194,24 @@
   def niconico
     puts "👀　195：データの取得を開始しました(niconico)"
     agent = Mechanize.new
-    pag = agent.get('https://www.nicovideo.jp/user/117330421')
+    pag = agent.get('https://www.nicovideo.jp/user/117330421/live_programs?ref=pc_userpage_menu')
 
     #pag = agent.get('https://live.nicovideo.jp/embed/broadcast-history?userId=117330421&ref=watch_user_information')
+    puts(".GuestIFrameContainer iframe")
+
     puts("pag")
     puts pag
-    puts pag.search("#root")
-    puts pag.search(".ga-ns-broadcast-history-pag")
-    puts pag.search(".user-program-broadcast-history-list-section")
-    puts pag.search(".item")
-    puts pag.search(".program-broadcast-history")
-    puts pag.search(".program-card")
-    puts pag.search(".program-preview")
-    puts pag.search(".state")
-    puts pag.search(".status")
+    puts pag.at("#root")
+    puts pag.at(".ga-ns-broadcast-history-pag")
+    puts pag.at(".user-program-broadcast-history-list-section")
+    puts pag.at(".item")
+    puts pag.at(".program-broadcast-history")
+    puts pag.at(".program-card")
+    puts pag.at(".program-preview")
+    puts pag.at(".state")
+    puts pag.at(".status")
 
-    puts("page")
-    page = agent.get('https://www.nicovideo.jp/user/117330421/live_programs?ref=watch_user_information')
-    puts page
-    puts page.search("#root")
-    puts page.search(".ga-ns-broadcast-history-page")
-    puts page.at(".user-program-broadcast-history-list-section")
-    puts page.at(".item")
-    puts page.at(".program-broadcast-history")
-    puts page.at(".program-card")
-    puts page.at(".program-preview")
-    puts page.at(".state")
-    puts page.at(".status")
-
-    @qita = page.at("#root .ga-ns-broadcast-history-page .user-program-broadcast-history-list-section .program-card-list .item .program-broadcast-history .program-card .program-preview .state .status")
+    @qita = pag.at("#root .ga-ns-broadcast-history-page .user-program-broadcast-history-list-section .program-card-list .item .program-broadcast-history .program-card .program-preview .state .status")
     puts @qita
     puts @qita.inner_text
     puts "👀　200：データの取得を終了しました(niconico)"
